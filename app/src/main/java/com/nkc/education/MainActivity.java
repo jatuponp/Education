@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
             logoutUser();
         }
 
+        db = new SQLiteHandler(context);
+
         setSupportActionBar(toolbar);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-regular-webfont.ttf");
 
