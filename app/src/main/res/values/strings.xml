@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">NKC Education</string>
     <string name="action_settings">Settings</string>
-    <string name="app_mainname">Education</string>
+    <string name="app_mainname">Education Service</string>
+    <string name="app_title">Education Service</string>
 
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="hint_name">Fullname</string>
     <string name="btn_login">เข้าสู่ระบบ</string>
+
+    /* Icon Set */
+    <string name="icon_heart">&#xf004;</string>
 </resources>
