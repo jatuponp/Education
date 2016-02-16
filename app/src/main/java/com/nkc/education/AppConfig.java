@@ -6,7 +6,7 @@ package com.nkc.education;
 public class AppConfig {
     // Server user login url
     public static String URL_LOGIN = "https://it.nkc.kku.ac.th/backend/api/login";
-    public static String URL_REGISTER = "https://it.nkc.kku.ac.th/frontend/gcm/register";
-    public static String URL_UNREGISTER = "https://it.nkc.kku.ac.th/frontend/gcm/unregister";
+    public static String URL_REGISTER = "https://it.nkc.kku.ac.th/frontend/edu/register";
+    public static String URL_UNREGISTER = "https://it.nkc.kku.ac.th/frontend/edu/unregister";
 
 }

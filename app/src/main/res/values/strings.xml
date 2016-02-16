@@ -11,4 +11,6 @@
 
     /* Icon Set */
     <string name="icon_heart">&#xf004;</string>
+
+    <string name="gcm_defaultSenderId">79592776038</string>
 </resources>

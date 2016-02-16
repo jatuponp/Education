@@ -1,11 +1,13 @@
 package com.nkc.education;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,9 +21,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.nkc.education.adapter.IconAdapter;
+import com.nkc.education.gcm.QuickstartPreferences;
+import com.nkc.education.gcm.RegistrationIntentService;
 import com.nkc.education.helper.SQLiteHandler;
 import com.nkc.education.helper.SessionManager;
 
@@ -35,11 +41,13 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     ListView listView;
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = MainActivity.class.getSimpleName();
     private SQLiteHandler db;
     private SessionManager session;
     Context context;
     static final String[] iconApps = new String[]{
-            "News", "Exam Schedule", "Documents Service",  "Inbox", "Links", "Feedback", "About us", "Log out"};
+            "News", "Exam Schedule", "Documents Service", "Inbox", "Links", "Feedback", "About us", "Log out"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         Iconify.with(new FontAwesomeModule());
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         context = getApplicationContext();
         session = new SessionManager(context);
         if (!session.isLoggedIn()) {
@@ -64,19 +73,68 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0:
                         break;
                     case 1:
                         break;
+                    case 6:
+                        Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                        startActivity(intent);
+                        break;
                     case 7:
-                        logoutUser();
+                        AlertDialog();
                         break;
                     default:
                         break;
                 }
             }
         });
+
+        if (checkPlayServices()) {
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        } else {
+            Log.i(TAG, "No valid Google Play Services APK found.");
+        }
+    }
+
+    private void AlertDialog()
+    {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_lock_power_off)
+                .setTitle("Logout")
+                .setMessage("Would you like to logout?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logoutUser();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -87,17 +145,17 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         try {
-            //String token = sharedPreferences.getString(QuickstartPreferences.TOKEN_ID, null);
+            String token = sharedPreferences.getString(QuickstartPreferences.TOKEN_ID, null);
             // Fetching user details from sqlite
             HashMap<String, String> user = db.getUserDetails();
             // Add custom implementation, as needed.
             Map<String, String> params = new HashMap<String, String>();
-            //params.put("regId", token);
+            params.put("regId", token);
             params.put("userId", user.get("uid"));
 
-            //String serverUrl = AppConfig.URL_UNREGISTER;
-            //doPost(serverUrl, params);
-            //sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
+            String serverUrl = AppConfig.URL_UNREGISTER;
+            doPost(serverUrl, params);
+            sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
         } catch (Exception ex) {
             Log.d("Except", "Failed to complete token refresh" + ex.getMessage());
         }
