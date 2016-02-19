@@ -82,9 +82,17 @@
 
         <service
             android:name=".gcm.RegistrationIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".AboutActivity" />
+        <activity
+            android:name=".ExamActivity"
+            android:label="@string/title_activity_exam"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".DocumentActivity"
+            android:label="@string/title_activity_document"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

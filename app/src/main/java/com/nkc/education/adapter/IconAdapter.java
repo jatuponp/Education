@@ -63,11 +63,11 @@ public class IconAdapter extends BaseAdapter {
                 txtTitleTH.setText("รายงานข้อผิดพลาด");
             } else if (icon.equals("Documents Service")) {
                 textView.setText("{fa-book #3BAFDA 50sp}");
-                txtTitleTH.setText("หมายเลขโทรศัพท์");
+                txtTitleTH.setText("เอกสารทางการศึกษา");
             } else if (icon.equals("Links")) {
                 textView.setText("{fa-globe #3BAFDA 50sp}");
                 txtTitleTH.setText("เว็บไซต์ที่เกี่ยวข้อง");
-            } else if (icon.equals("About us")) {
+            } else if (icon.equals("About")) {
                 textView.setText("{fa-info #3BAFDA 50sp}");
                 txtTitleTH.setText("เกี่ยวกับโปรแกรม");
             } else if (icon.equals("Log out")) {

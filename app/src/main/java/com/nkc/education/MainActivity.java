@@ -1,10 +1,13 @@
 package com.nkc.education;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
@@ -21,6 +24,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.joanzapata.iconify.Iconify;
@@ -28,8 +35,13 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.nkc.education.adapter.IconAdapter;
 import com.nkc.education.gcm.QuickstartPreferences;
 import com.nkc.education.gcm.RegistrationIntentService;
+import com.nkc.education.helper.DatabaseHelper;
 import com.nkc.education.helper.SQLiteHandler;
 import com.nkc.education.helper.SessionManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -44,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = MainActivity.class.getSimpleName();
     private SQLiteHandler db;
+    private DatabaseHelper db_education;
     private SessionManager session;
+    private ProgressDialog pDialog;
     Context context;
     static final String[] iconApps = new String[]{
-            "News", "Exam Schedule", "Documents Service", "Inbox", "Links", "Feedback", "About us", "Log out"};
+            "News", "Exam Schedule", "Documents Service", "Inbox", "Feedback", "About", "Log out"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         db = new SQLiteHandler(context);
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
 
         setSupportActionBar(toolbar);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-regular-webfont.ttf");
@@ -77,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         break;
                     case 1:
+                        Intent intexam = new Intent(MainActivity.this, ExamActivity.class);
+                        startActivity(intexam);
+                        break;
+                    case 2:
+                        Intent intdoc = new Intent(MainActivity.this, DocumentActivity.class);
+                        startActivity(intdoc);
                         break;
                     case 6:
                         Intent intent = new Intent(MainActivity.this, AboutActivity.class);
@@ -97,10 +119,24 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
+
+        if (isInternetConnection()) {
+            syncExam();
+            syncDocument();
+        }
     }
 
-    private void AlertDialog()
-    {
+    private boolean isInternetConnection() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void AlertDialog() {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_lock_power_off)
                 .setTitle("Logout")
@@ -114,6 +150,158 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    private void syncExam() {
+        pDialog.setMessage("Synchronize Database. Please wait...");
+        showDialog();
+        db_education = new DatabaseHelper(getApplicationContext());
+        db_education.deleteAllExam();
+
+        JsonArrayRequest roomReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETEXAM,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        int j = 0;
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                String Nox = obj.getString("NOX");
+                                Integer Running = Integer.valueOf(obj.getString("Running"));
+                                String Coursecode = obj.getString("COURSECODE");
+                                String Section = obj.getString("SECTION");
+                                String Studentid = obj.getString("STUDENTID");
+                                String Studentcode = obj.getString("STUDENTCODE");
+                                String Coursenameeng = obj.getString("COURSENAMEENG");
+                                String DateMid = obj.getString("DateMid");
+                                String TimeBegin = obj.getString("TimeBegin");
+                                String TimeEnd = obj.getString("TimeEnd");
+                                String Runcode = obj.getString("RunCode");
+                                String chk = obj.getString("CHK");
+                                String Classid = obj.getString("CLASSID");
+                                String Codex = obj.getString("CODEX");
+                                String Enroll148 = obj.getString("Enroll148_STUDENTID");
+                                String Prefixname = obj.getString("PREFIXNAME");
+                                String Studentname = obj.getString("STUDENTNAME");
+                                String Studentsurname = obj.getString("STUDENTSURNAME");
+                                String RoomID = obj.getString("RoomID");
+                                String Number = obj.getString("Number");
+                                String Programname = obj.getString("PROGRAMNAME");
+                                String Studentyear = obj.getString("STUDENTYEAR");
+                                String Acadyear = obj.getString("ACADYEAR");
+                                String Semester = obj.getString("SEMESTER");
+                                String Financestatus = obj.getString("FINANCESTATUS");
+                                String Programabbeng = obj.getString("PROGRAMABBENG");
+                                String ExamType = obj.getString("ExamType");
+                                String ExamYear = obj.getString("ExamYear");
+                                String ExamYearX = obj.getString("ExamYearX");
+                                String BYTEDES = obj.getString("BYTEDES");
+                                String Comment = obj.getString("Comment");
+
+                                db_education.createExam(Nox, Running, Coursecode, Section, Studentid, Studentcode, Coursenameeng, DateMid,
+                                        TimeBegin, TimeEnd, Runcode, chk, Classid, Codex, Enroll148, Prefixname, Studentname, Studentsurname,
+                                        RoomID, Number, Programname, Studentyear, Acadyear, Semester, Financestatus, Programabbeng,
+                                        ExamType, ExamYear, ExamYearX, BYTEDES, Comment);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        hideDialog();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        hideDialog();
+                    }
+
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to getInbox url
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put(ARG_USERID, getArguments().getString(ARG_USERID));
+                //params.put(ARG_STATUS, getArguments().getString(ARG_STATUS));
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(roomReq, "getExam");
+        db_education.closeDB();
+    }
+
+    private void syncDocument() {
+        pDialog.setMessage("Synchronize Documents Database. Please wait...");
+        showDialog();
+        db_education = new DatabaseHelper(getApplicationContext());
+        db_education.deleteAllDoc();
+
+        JsonArrayRequest roomReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETDOC,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        int j = 0;
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                Integer Autoid = Integer.valueOf(obj.getString("AUTOID"));
+                                String Batchno = obj.getString("BATCHNO");
+                                String Requestdate = obj.getString("REQUESTDATE");
+                                String Studentcode = obj.getString("STUDENTCODE");
+                                String Studentname = obj.getString("STUDENTNAME");
+                                String Studentsurname = obj.getString("STUDENTSURNAME");
+                                String Acadyear = obj.getString("ACADYEAR");
+                                Integer Semester = Integer.valueOf(obj.getString("SEMESTER"));
+                                String Feeid = obj.getString("FEEID");
+                                String Feeidname = obj.getString("FEEIDNAME");
+                                String Feeidweb = obj.getString("FEEIDWEB");
+                                String Quantity = obj.getString("QUANTITY");
+                                String Reason = obj.getString("REASON");
+                                String Remark = obj.getString("REMARK");
+                                String Status = obj.getString("STATUS");
+
+                                db_education.createDocument(Autoid, Batchno, Requestdate, Studentcode, Studentname, Studentsurname,
+                                        Acadyear, Semester, Feeid, Feeidname, Feeidweb, Quantity, Reason, Remark, Status);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        hideDialog();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        hideDialog();
+                    }
+
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to getInbox url
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put(ARG_USERID, getArguments().getString(ARG_USERID));
+                //params.put(ARG_STATUS, getArguments().getString(ARG_STATUS));
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(roomReq, "getDoc");
+        db_education.closeDB();
     }
 
     /**
@@ -167,6 +355,16 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 
     private static void doPost(final String urlConn, final Map<String, String> params) {

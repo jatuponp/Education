@@ -9,4 +9,7 @@ public class AppConfig {
     public static String URL_REGISTER = "https://it.nkc.kku.ac.th/frontend/edu/register";
     public static String URL_UNREGISTER = "https://it.nkc.kku.ac.th/frontend/edu/unregister";
 
+    public static String URL_GETEXAM = "https://it.nkc.kku.ac.th/frontend/edu/getexam";
+    public static String URL_GETDOC = "https://it.nkc.kku.ac.th/frontend/edu/getdoc";
+
 }
