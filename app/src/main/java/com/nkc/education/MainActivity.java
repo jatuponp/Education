@@ -100,11 +100,11 @@ public class MainActivity extends AppCompatActivity {
                         Intent intdoc = new Intent(MainActivity.this, DocumentActivity.class);
                         startActivity(intdoc);
                         break;
-                    case 6:
+                    case 5:
                         Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                         startActivity(intent);
                         break;
-                    case 7:
+                    case 6:
                         AlertDialog();
                         break;
                     default:
