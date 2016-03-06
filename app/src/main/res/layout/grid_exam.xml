@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp" >
+
+    <TextView
+        android:id="@+id/txtDay"
+        android:text="12"
+        android:textSize="42dp"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimaryDark"
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/courseCode"
+        android:text="Exam Schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/txtDay"/>
+
+    <TextView
+        android:id="@+id/courseName"
+        android:text="ตรวจสอบบตารางสอบ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_toRightOf="@+id/txtDay"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/courseCode"/>
+
+    <TextView
+        android:id="@+id/txtDateTime"
+        android:text="วัน - เวลา"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_toRightOf="@+id/txtDay"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/courseName"/>
+
+    <TextView
+        android:id="@+id/txtRoom"
+        android:text="ห้องสอบ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_toRightOf="@+id/txtDay"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/txtDateTime"/>
+
+    <TextView
+        android:id="@+id/txtMonth"
+        android:text="มี.ค."
+        android:textSize="16dp"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="-20dp"
+        android:layout_marginRight="10dp"
+        android:background="?attr/colorPrimaryDark"
+        android:textColor="@color/white"
+        android:layout_below="@+id/txtDay"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        />
+
+</RelativeLayout>

@@ -12,4 +12,16 @@
     tools:context="com.nkc.education.ExamActivity"
     tools:showIn="@layout/activity_exam">
 
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_exam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numColumns="auto_fit"
+        android:columnWidth="90dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:gravity="center">
+
+    </ListView>
+
 </RelativeLayout>

@@ -13,6 +13,6 @@
     <string name="icon_heart">&#xf004;</string>
 
     <string name="gcm_defaultSenderId">79592776038</string>
-    <string name="title_activity_exam">Exam Schedule</string>
-    <string name="title_activity_document">Documents Service</string>
+    <string name="title_activity_exam">ตรวจสอบตารางสอบ</string>
+    <string name="title_activity_document">เอกสารทางการศึกษา</string>
 </resources>
