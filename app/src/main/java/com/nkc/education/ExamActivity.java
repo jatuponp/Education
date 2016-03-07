@@ -2,6 +2,7 @@ package com.nkc.education;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.nkc.education.adapter.ExamListAdapter;
 import com.nkc.education.helper.DatabaseHelper;
@@ -35,6 +37,18 @@ public class ExamActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
+
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-regular-webfont.ttf");
+        TextView txtExamYearX = (TextView) findViewById(R.id.txtExamYearX);
+        TextView txtFullName = (TextView) findViewById(R.id.txtFullName);
+
+        db = new DatabaseHelper(getApplicationContext());
+        String yearX = db.getExamYearX();
+        String fullName = db.getFullName();
+        txtExamYearX.setText(yearX);
+        txtFullName.setText(fullName);
+        txtExamYearX.setTypeface(typeFace);
+        txtFullName.setTypeface(typeFace);
 
         listExam();
     }

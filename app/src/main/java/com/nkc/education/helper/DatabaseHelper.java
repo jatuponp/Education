@@ -227,6 +227,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exams;
     }
 
+    public String getFullName(){
+        String FullName = "";
+        String query = "SELECT * FROM " + TABLE_EXAM + " LIMIT 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            FullName = cursor.getString(cursor.getColumnIndex(KEY_STUDENTCODE)) + ": " + cursor.getString(cursor.getColumnIndex(KEY_PREFIXNAME)) + cursor.getString(cursor.getColumnIndex(KEY_STUDENTNAME)) + " " +cursor.getString(cursor.getColumnIndex(KEY_STUDENTSURNAME));
+        }
+
+        cursor.close();
+        return FullName;
+    }
+
+    public String getExamYearX(){
+        String ExamYearX = "";
+        String query = "SELECT * FROM " + TABLE_EXAM + " LIMIT 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            ExamYearX = "ตารางสอบ" + cursor.getString(cursor.getColumnIndex(KEY_ExamYearX));
+        }
+
+        cursor.close();
+        return ExamYearX;
+    }
+
     /**
      * Deleting a all Exam
      */

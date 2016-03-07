@@ -12,15 +12,29 @@
     tools:context="com.nkc.education.ExamActivity"
     tools:showIn="@layout/activity_exam">
 
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/list_exam"
+    <TextView
+        android:id="@+id/txtExamYearX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numColumns="auto_fit"
+        android:text="ปลายภาค  ภาคต้น ปีการศึกษา 2558" />
+
+    <TextView
+        android:id="@+id/txtFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtExamYearX"
+        android:text="นายจตุพล โพธิ์คำพก" />
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_exam"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtFullName"
         android:columnWidth="90dp"
+        android:gravity="center"
         android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:gravity="center">
+        android:numColumns="auto_fit"
+        android:verticalSpacing="10dp">
 
     </ListView>
 
