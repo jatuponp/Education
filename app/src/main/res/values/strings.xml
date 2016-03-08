@@ -15,4 +15,5 @@
     <string name="gcm_defaultSenderId">79592776038</string>
     <string name="title_activity_exam">ตรวจสอบตารางสอบ</string>
     <string name="title_activity_document">เอกสารทางการศึกษา</string>
+    <string name="title_activity_news">ข่าวประชาสัมพันธ์</string>
 </resources>

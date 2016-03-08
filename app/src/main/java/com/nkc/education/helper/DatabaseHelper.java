@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 
+import com.nkc.education.model.Document;
 import com.nkc.education.model.Exam;
 
 import java.text.SimpleDateFormat;
@@ -260,7 +261,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void deleteAllExam() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_EXAM);
+        db.execSQL("delete from " + TABLE_EXAM);
     }
 
 
@@ -292,6 +293,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long id = db.insert(TABLE_DOCUMENT, null, values);
 
         Log.d(LOG, "New Document inserted into sqlite: " + id);
+    }
+
+    // getting all Document
+    public List<Document> getAllDoc() {
+        ArrayList<Document> docs = new ArrayList<Document>();
+        String selectQuery = "SELECT * FROM " + TABLE_DOCUMENT + " ORDER BY " + KEY_FEEID + " DESC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        Log.i("selectQuery", selectQuery);
+
+        if (c.moveToFirst()) {
+            do {
+                Document d = new Document();
+                d.setFeeidname(c.getString(c.getColumnIndex(KEY_FEEIDNAME)));
+                d.setFeeidweb(c.getString(c.getColumnIndex(KEY_FEEIDWEB)));
+                d.setRequestdate(c.getString(c.getColumnIndex(KEY_REQUESTDATE)));
+                d.setStatus(c.getString(c.getColumnIndex(KEY_STATUS)));
+
+                docs.add(d);
+            } while (c.moveToNext());
+        }
+        this.closeDB();
+        return docs;
     }
 
     /**

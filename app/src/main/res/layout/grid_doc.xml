@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp" >
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/iconDoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="{fa-file-text #3BAFDA 45sp}"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/txtFeeid"
+        android:text="Exam Schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="13dp"
+        android:layout_toRightOf="@+id/iconDoc"/>
+
+    <TextView
+        android:id="@+id/txtRequestDate"
+        android:text="วันที่ยื่นเรื่อง"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_toRightOf="@+id/iconDoc"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/txtFeeid"/>
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:text="สถานะ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_toRightOf="@+id/iconDoc"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/txtRequestDate"/>
+
+</RelativeLayout>

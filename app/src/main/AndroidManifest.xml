@@ -61,7 +61,6 @@
             </intent-filter>
         </receiver>
 
-
         <!-- [START gcm_listener] -->
         <service
             android:name=".gcm.MyGcmListenerService"
@@ -85,11 +84,14 @@
             android:name=".gcm.RegistrationIntentService"
             android:exported="false" />
 
-        <receiver android:process=":remote" android:name=".service.ExamReceiver"></receiver>
+        <receiver
+            android:name=".service.ExamReceiver"
+            android:process=":remote" />
+
         <service
             android:name=".service.ExamService"
             android:enabled="true"
-            android:process=":ExamService" >
+            android:process=":ExamService">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -103,6 +105,10 @@
         <activity
             android:name=".DocumentActivity"
             android:label="@string/title_activity_document"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".NewsActivity"
+            android:label="@string/title_activity_news"
             android:theme="@style/AppTheme"></activity>
     </application>
 

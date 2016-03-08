@@ -28,11 +28,35 @@ public class Document {
         this.Status = Status;
     }
 
-    public void setStudentcode(String studentcode){
-        this.Studentcode = studentcode;
+
+
+    public void setFeeidname(String feeidname){
+        this.Feeidname = feeidname;
     }
 
-    public String getStudentcode(){
-        return Studentcode;
+    public String getFeeidname(){
+        return Feeidname;
+    }
+
+    public void setFeeidweb(String feeidweb){
+        this.Feeidweb = feeidweb;
+    }
+
+    public String getFeeidweb(){
+        return Feeidweb;
+    }
+    public void setRequestdate(String requestdate){
+        this.Requestdate = requestdate;
+    }
+
+    public String getRequestdate(){
+        return Requestdate;
+    }
+    public void setStatus(String status){
+        this.Status = status;
+    }
+
+    public String getStatus(){
+        return Status;
     }
 }

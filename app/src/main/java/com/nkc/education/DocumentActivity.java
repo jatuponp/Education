@@ -1,5 +1,8 @@
 package com.nkc.education;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,8 +10,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.nkc.education.adapter.DocListAdapter;
+import com.nkc.education.adapter.ExamListAdapter;
+import com.nkc.education.helper.DatabaseHelper;
+import com.nkc.education.helper.SessionManager;
+import com.nkc.education.model.Document;
+import com.nkc.education.model.Exam;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DocumentActivity extends AppCompatActivity {
+    private DatabaseHelper db;
+    private SessionManager session;
+    private List<Document> docList = new ArrayList<Document>();
+    private ListView listView;
+    private DocListAdapter adapter;
+    Context context;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +40,40 @@ public class DocumentActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setupActionBar();
 
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-regular-webfont.ttf");
+        TextView txtDocList = (TextView) findViewById(R.id.txtDocList);
+        TextView txtFullName = (TextView) findViewById(R.id.txtFullName);
+
+        db = new DatabaseHelper(getApplicationContext());
+        String fullName = db.getFullName();
+        txtFullName.setText(fullName);
+        txtFullName.setTypeface(typeFace);
+        txtDocList.setTypeface(typeFace);
+
+        listDoc();
+
+    }
+
+    public void listDoc(){
+        listView = (ListView) findViewById(R.id.list_doc);
+        adapter = new DocListAdapter(this, docList);
+        listView.setAdapter(adapter);
+        db = new DatabaseHelper(getApplicationContext());
+
+        docList.clear();
+
+        List<Document> row = db.getAllDoc();
+        for (Document r : row){
+            Document docs = new Document();
+            docs.setFeeidname(r.getFeeidname());
+            docs.setFeeidweb(r.getFeeidweb());
+            docs.setRequestdate(r.getRequestdate());
+            docs.setStatus(r.getStatus());
+
+            docList.add(docs);
+        }
+
+        adapter.notifyDataSetChanged();
 
     }
 

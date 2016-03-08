@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 switch (position) {
                     case 0:
+                        Intent intnews = new Intent(MainActivity.this, NewsActivity.class);
+                        startActivity(intnews);
                         break;
                     case 1:
                         Intent intexam = new Intent(MainActivity.this, ExamActivity.class);

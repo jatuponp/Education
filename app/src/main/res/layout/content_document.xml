@@ -12,4 +12,30 @@
     tools:context="com.nkc.education.DocumentActivity"
     tools:showIn="@layout/activity_document">
 
+    <TextView
+        android:id="@+id/txtDocList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="รายการยื่นขอเอกสารทางการศึกษา" />
+
+    <TextView
+        android:id="@+id/txtFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtDocList"
+        android:text="นายจตุพล โพธิ์คำพก" />
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_doc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtFullName"
+        android:columnWidth="90dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="10dp">
+
+    </ListView>
+
 </RelativeLayout>
