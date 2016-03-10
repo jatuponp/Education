@@ -26,7 +26,7 @@ public class NewsActivity extends AppCompatActivity {
         webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
         webSettings.setSupportMultipleWindows(false);
         webNews.setWebViewClient(new WebViewClient());
-        webNews.loadUrl("http://www.nkc.kku.ac.th/th/");
+        webNews.loadUrl("https://it.nkc.kku.ac.th/th/web/news/");
     }
 
     /**

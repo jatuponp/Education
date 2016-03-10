@@ -157,16 +157,24 @@ public class MainActivity extends AppCompatActivity {
     private void syncExam() {
         pDialog.setMessage("Synchronize Database. Please wait...");
         showDialog();
+        HashMap<String, String> user = db.getUserDetails();
+        JSONObject obj = new JSONObject();
+        try {
+            //obj.put("userid", user.get("uid"));
+            obj.put("userid", "5532307475");
+        } catch (JSONException e) {
+            System.out.print(e.getMessage());
+        }
+
         db_education = new DatabaseHelper(getApplicationContext());
         db_education.deleteAllExam();
 
-        JsonArrayRequest roomReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETEXAM,
+        JsonArrayRequest examReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETEXAM, obj,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG, "Response: " + response.toString());
 
-                        int j = 0;
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject obj = response.getJSONObject(i);
@@ -223,19 +231,11 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to getInbox url
-                Map<String, String> params = new HashMap<String, String>();
-                //params.put(ARG_USERID, getArguments().getString(ARG_USERID));
-                //params.put(ARG_STATUS, getArguments().getString(ARG_STATUS));
-                return params;
-            }
+        );
 
-        };
-
-        AppController.getInstance().addToRequestQueue(roomReq, "getExam");
+        //AppController.getInstance().addToRequestQueue(examReq, "getExam");
+        // Access the RequestQueue through your singleton class.
+        MySingleton.getInstance(this).addToRequestQueue(examReq);
         db_education.closeDB();
     }
 
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
         db_education = new DatabaseHelper(getApplicationContext());
         db_education.deleteAllDoc();
 
-        JsonArrayRequest roomReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETDOC,
+        JsonArrayRequest docReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETDOC,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
 
         };
 
-        AppController.getInstance().addToRequestQueue(roomReq, "getDoc");
+        MySingleton.getInstance(this).addToRequestQueue(docReq);
         db_education.closeDB();
     }
 
