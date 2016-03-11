@@ -12,4 +12,7 @@ public class AppConfig {
     public static String URL_GETEXAM = "https://it.nkc.kku.ac.th/frontend/edu/getexam";
     public static String URL_GETDOC = "https://it.nkc.kku.ac.th/frontend/edu/getdoc";
 
+    public static String URL_SETFEEDBACK = "https://it.nkc.kku.ac.th/frontend/edu/setfeedback";
+    public static String URL_GETINBOX = "https://it.nkc.kku.ac.th/frontend/edu/getinbox";
+
 }

@@ -8,6 +8,9 @@
     <string name="hint_password">Password</string>
     <string name="hint_name">Fullname</string>
     <string name="btn_login">เข้าสู่ระบบ</string>
+    <string name="hint_feedtitle">ชื่อเรื่อง</string>
+    <string name="hint_feedsuggest">รายละเอียด</string>
+    <string name="btn_submit">ส่งข้อมูล</string>
 
     /* Icon Set */
     <string name="icon_heart">&#xf004;</string>
@@ -16,4 +19,6 @@
     <string name="title_activity_exam">ตรวจสอบตารางสอบ</string>
     <string name="title_activity_document">เอกสารทางการศึกษา</string>
     <string name="title_activity_news">ข่าวประชาสัมพันธ์</string>
+    <string name="title_activity_about">เกี่ยวกับโปรแกรม</string>
+    <string name="title_activity_feedback">รายงานข้อผิดพลาด</string>
 </resources>

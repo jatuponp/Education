@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
                         Intent intdoc = new Intent(MainActivity.this, DocumentActivity.class);
                         startActivity(intdoc);
                         break;
+                    case 4:
+                        Intent intfeed = new Intent(MainActivity.this, FeedbackActivity.class);
+                        startActivity(intfeed);
+                        break;
                     case 5:
                         Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                         startActivity(intent);
@@ -123,8 +127,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (isInternetConnection()) {
-            syncExam();
-            syncDocument();
+            HashMap<String, String> user = db.getUserDetails();
+            String userid = "5634100715";//user.get("uid");
+            syncExam(userid);
+            syncDocument(userid);
         }
     }
 
@@ -154,22 +160,14 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void syncExam() {
+    private void syncExam(String userid) {
         pDialog.setMessage("Synchronize Database. Please wait...");
         showDialog();
-        HashMap<String, String> user = db.getUserDetails();
-        JSONObject obj = new JSONObject();
-        try {
-            //obj.put("userid", user.get("uid"));
-            obj.put("userid", "5532307475");
-        } catch (JSONException e) {
-            System.out.print(e.getMessage());
-        }
 
         db_education = new DatabaseHelper(getApplicationContext());
         db_education.deleteAllExam();
 
-        JsonArrayRequest examReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETEXAM, obj,
+        JsonArrayRequest examReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETEXAM + "?userid=" + userid,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -233,19 +231,18 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        //AppController.getInstance().addToRequestQueue(examReq, "getExam");
         // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(examReq);
         db_education.closeDB();
     }
 
-    private void syncDocument() {
+    private void syncDocument(String userid) {
         pDialog.setMessage("Synchronize Documents Database. Please wait...");
         showDialog();
         db_education = new DatabaseHelper(getApplicationContext());
         db_education.deleteAllDoc();
 
-        JsonArrayRequest docReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETDOC,
+        JsonArrayRequest docReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETDOC + "?userid=" + userid,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -290,17 +287,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to getInbox url
-                Map<String, String> params = new HashMap<String, String>();
-                //params.put(ARG_USERID, getArguments().getString(ARG_USERID));
-                //params.put(ARG_STATUS, getArguments().getString(ARG_STATUS));
-                return params;
-            }
-
-        };
+        );
 
         MySingleton.getInstance(this).addToRequestQueue(docReq);
         db_education.closeDB();

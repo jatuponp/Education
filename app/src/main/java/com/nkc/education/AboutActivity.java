@@ -18,6 +18,9 @@ public class AboutActivity extends AppCompatActivity {
 
         setupActionBar();
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-regular-webfont.ttf");
+        Typeface typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-bold-webfont.ttf");
+        TextView txtTitle = (TextView) findViewById(R.id._title);
+        txtTitle.setTypeface(typeFace1);
 
         TextView txt2 = (TextView) findViewById(R.id.textView2);
         txt2.setTypeface(typeFace);

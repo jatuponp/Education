@@ -18,6 +18,8 @@ import com.nkc.education.helper.DatabaseHelper;
 import com.nkc.education.helper.SessionManager;
 import com.nkc.education.model.Exam;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,9 @@ public class ExamActivity extends AppCompatActivity {
         setupActionBar();
 
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-regular-webfont.ttf");
+        Typeface typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-bold-webfont.ttf");
+        TextView txtTitleExam = (TextView) findViewById(R.id.titleExam);
+        txtTitleExam.setTypeface(typeFace1);
         TextView txtExamYearX = (TextView) findViewById(R.id.txtExamYearX);
         TextView txtFullName = (TextView) findViewById(R.id.txtFullName);
 

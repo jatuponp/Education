@@ -41,6 +41,9 @@ public class DocumentActivity extends AppCompatActivity {
         setupActionBar();
 
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-regular-webfont.ttf");
+        Typeface typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/thaisansneue-bold-webfont.ttf");
+        TextView txtTitle = (TextView) findViewById(R.id._title);
+        txtTitle.setTypeface(typeFace1);
         TextView txtDocList = (TextView) findViewById(R.id.txtDocList);
         TextView txtFullName = (TextView) findViewById(R.id.txtFullName);
 
