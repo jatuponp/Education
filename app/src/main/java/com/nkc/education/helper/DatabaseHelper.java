@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.nkc.education.model.Document;
 import com.nkc.education.model.Exam;
+import com.nkc.education.model.Inboxs;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Names
     private static final String TABLE_EXAM = "exam";
     private static final String TABLE_DOCUMENT = "document";
+    private static final String TABLE_INBOX = "inbox";
 
     // Common column names
     private static final String KEY_ID = "id";
@@ -84,6 +86,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_REMARK = "Remark";
     private static final String KEY_STATUS = "Status";
 
+    // Inbox Table - column names
+    private static final String KEY_MFORM = "MForm";
+    private static final String KEY_MTO = "MTo";
+    private static final String KEY_MSUBJECT = "MSubject";
+    private static final String KEY_MBODY = "MBody";
+    private static final String KEY_MREAD = "MRead";
+    private static final String KEY_MREADDATE = "MReadDate";
+    private static final String KEY_MSENDDATE = "MSendDate";
+
     // Table Create Statements
     // Room table create statement
     private static final String CREATE_TABLE_EXAM = "CREATE TABLE "
@@ -100,7 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + " TEXT," + KEY_ExamYearX + " TEXT," + KEY_BYTEDES + " TEXT," + KEY_Comment
             + " TEXT," + KEY_CREATED_AT + " DATETIME)";
 
-    // Meter table create statement
+    // Document table create statement
     private static final String CREATE_TABLE_DOCUMENT = "CREATE TABLE "
             + TABLE_DOCUMENT + "(" + KEY_AUTOID + " INTEGER PRIMARY KEY," + KEY_BATCHNO
             + " TEXT," + KEY_REQUESTDATE + " DATE," + KEY_STUDENTCODE
@@ -109,6 +120,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + " TEXT," + KEY_FEEIDWEB + " TEXT," + KEY_QUANTITY + " TEXT," + KEY_REASON
             + " TEXT," + KEY_REMARK + " TEXT," + KEY_STATUS
             + " TEXT," + KEY_CREATED_AT + " DATETIME)";
+
+    // Inbox table create statement
+    private static final String CREATE_TABLE_INBOX = "CREATE TABLE "
+            + TABLE_INBOX + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_MFORM
+            + " TEXT," + KEY_MTO + " TEXT," + KEY_MSUBJECT
+            + " TEXT," + KEY_MBODY + " TEXT," + KEY_MREAD + " TEXT," + KEY_MREADDATE
+            + " DATETIME," + KEY_MSENDDATE + " DATETIME)";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -120,6 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // creating required tables
         db.execSQL(CREATE_TABLE_EXAM);
         db.execSQL(CREATE_TABLE_DOCUMENT);
+        db.execSQL(CREATE_TABLE_INBOX);
     }
 
     @Override
@@ -127,6 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAM);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOCUMENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INBOX);
 
         // create new tables
         onCreate(db);
@@ -325,5 +345,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteAllDoc() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from "+ TABLE_DOCUMENT);
+    }
+
+    // ------------------------ "Inbox" table methods ----------------//
+    public void createInbox(String MForm, String MTo, String MSubject, String MBody, String MRead, String MReadDate, String MSendate) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_MFORM, MForm);
+        values.put(KEY_MTO, MTo);
+        values.put(KEY_MSUBJECT, MSubject);
+        values.put(KEY_MBODY, MBody);
+        values.put(KEY_MREAD, MRead);
+        values.put(KEY_MREADDATE, MReadDate);
+        values.put(KEY_MSENDDATE, MSendate);
+
+        // Inserting Row
+        long id = db.insert(TABLE_INBOX, null, values);
+
+        Log.d(LOG, "New Inbox inserted into sqlite: " + id);
+    }
+
+    // getting all Document
+    public List<Inboxs> getAllInbox() {
+        ArrayList<Inboxs> inboxs = new ArrayList<Inboxs>();
+        String selectQuery = "SELECT * FROM " + TABLE_INBOX + " ORDER BY " + KEY_ID + " DESC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        Log.i("selectQuery", selectQuery);
+
+        if (c.moveToFirst()) {
+            do {
+                Inboxs d = new Inboxs();
+                d.setMForm(c.getString(c.getColumnIndex(KEY_MFORM)));
+                d.setMTo(c.getString(c.getColumnIndex(KEY_MTO)));
+                d.setMSubject(c.getString(c.getColumnIndex(KEY_MSUBJECT)));
+                d.setMBody(c.getString(c.getColumnIndex(KEY_MBODY)));
+                d.setMRead(c.getString(c.getColumnIndex(KEY_MREAD)));
+                d.setMReadDate(c.getString(c.getColumnIndex(KEY_MREADDATE)));
+                d.setMSendDate(c.getString(c.getColumnIndex(KEY_MSENDDATE)));
+
+                inboxs.add(d);
+            } while (c.moveToNext());
+        }
+        this.closeDB();
+        return inboxs;
+    }
+
+    /**
+     * Deleting a all Documents
+     */
+    public void deleteAllInbox() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_INBOX);
     }
 }

@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
                         Intent intdoc = new Intent(MainActivity.this, DocumentActivity.class);
                         startActivity(intdoc);
                         break;
+                    case 3:
+                        Intent intinbox = new Intent(MainActivity.this, InboxActivity.class);
+                        startActivity(intinbox);
+                        break;
                     case 4:
                         Intent intfeed = new Intent(MainActivity.this, FeedbackActivity.class);
                         startActivity(intfeed);
@@ -131,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             String userid = "5634100715";//user.get("uid");
             syncExam(userid);
             syncDocument(userid);
+            syncInbox("5470890004657");
         }
     }
 
@@ -290,6 +295,54 @@ public class MainActivity extends AppCompatActivity {
         );
 
         MySingleton.getInstance(this).addToRequestQueue(docReq);
+        db_education.closeDB();
+    }
+
+    private void syncInbox(String userid) {
+        pDialog.setMessage("Synchronize Inbox Database. Please wait...");
+        showDialog();
+        db_education = new DatabaseHelper(getApplicationContext());
+        db_education.deleteAllInbox();
+
+        JsonArrayRequest inboxReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETINBOX + "?userid=" + userid,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        int j = 0;
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                String MForm = obj.getString("MForm");
+                                String MTo = obj.getString("MTo");
+                                String MSubject = obj.getString("MSubject");
+                                String MBody = obj.getString("MBody");
+                                String MRead = obj.getString("MRead");
+                                String MReadDate = obj.getString("MReadDate");
+                                String MSendate = obj.getString("MSendate");
+
+                                db_education.createInbox(MForm, MTo, MSubject, MBody, MRead, MReadDate, MSendate);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        hideDialog();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        hideDialog();
+                    }
+
+                }
+        );
+
+        MySingleton.getInstance(this).addToRequestQueue(inboxReq);
         db_education.closeDB();
     }
 

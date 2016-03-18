@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp" >
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/iconInbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="{fa-envelope #3BAFDA 45sp}"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/txtInboxTitle"
+        android:text="Mail Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="13dp"
+        android:layout_toRightOf="@+id/iconInbox"/>
+
+    <TextView
+        android:id="@+id/txtInboxBody"
+        android:text="รายละเอียด"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_toRightOf="@+id/iconInbox"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/txtInboxTitle"/>
+
+    <TextView
+        android:id="@+id/txtSendDate"
+        android:text="วันที่ส่ง"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_toRightOf="@+id/iconInbox"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/txtInboxBody"/>
+
+</RelativeLayout>
