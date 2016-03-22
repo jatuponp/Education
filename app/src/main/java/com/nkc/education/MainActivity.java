@@ -38,6 +38,8 @@ import com.nkc.education.gcm.RegistrationIntentService;
 import com.nkc.education.helper.DatabaseHelper;
 import com.nkc.education.helper.SQLiteHandler;
 import com.nkc.education.helper.SessionManager;
+import com.nkc.education.model.Exam;
+import com.nkc.education.service.SampleAlarmReceiver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,9 +51,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    SampleAlarmReceiver alarm = new SampleAlarmReceiver();
     ListView listView;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -132,11 +136,29 @@ public class MainActivity extends AppCompatActivity {
 
         if (isInternetConnection()) {
             HashMap<String, String> user = db.getUserDetails();
-            String userid = "5634100715";//user.get("uid");
+            String userid = "563410071";//user.get("uid");
             syncExam(userid);
             syncDocument(userid);
-            syncInbox("5470890004657");
+            syncInbox(user.get("uid"));
         }
+        alarm.setAlarm(this);
+
+//        db_education = new DatabaseHelper(getApplicationContext());
+//        List<Exam> row = db_education.getAllExam();
+//        Integer i = 1;
+//        for (Exam r : row){
+//            String DateMid = r.getDateMid();
+//            String TimeBegin = r.getTimeBegin();
+//            String[] Dates = DateMid.split("-");
+//            String[] Times = TimeBegin.split(":");
+//            //แจ้งเตือนก่อนสอบ 1 วัน เวลา 20:00
+//            alarm.setAlarm(this, i, Integer.parseInt(Dates[0]),Integer.parseInt(Dates[1]),Integer.parseInt(Dates[2]) - 1, Integer.parseInt(Times[0]), 0);
+//            //แจ้งเตือนก่อนสอบ 1 ชั่วโมง
+//            alarm.setAlarm(this, 100 + i, Integer.parseInt(Dates[0]),Integer.parseInt(Dates[1]),Integer.parseInt(Dates[2]),Integer.parseInt(Times[0]) - 1, 0);
+//
+//            i++;
+//        }
+
     }
 
     private boolean isInternetConnection() {

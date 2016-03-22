@@ -22,4 +22,7 @@
     <string name="title_activity_about">เกี่ยวกับโปรแกรม</string>
     <string name="title_activity_feedback">รายงานข้อผิดพลาด</string>
     <string name="title_activity_inbox">ข้อความเข้า</string>
+
+    <string name="alert_title">แจ้งเตือน อีก 1 ชั่วโมงถึงเวลาสอบ</string>
+    <string name="alert_body">ขอให้เตรียมตัวให้พร้อมก่อนเข้าห้องสอบ </string>
 </resources>

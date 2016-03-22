@@ -84,18 +84,15 @@
             android:name=".gcm.RegistrationIntentService"
             android:exported="false" />
 
-        <receiver
-            android:name=".service.ExamReceiver"
-            android:process=":remote" />
+        <receiver android:name=".service.SampleAlarmReceiver"></receiver>
 
-        <service
-            android:name=".service.ExamService"
-            android:enabled="true"
-            android:process=":ExamService">
+        <receiver android:name=".service.SampleBootReceiver"
+            android:enabled="false">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
-        </service>
+        </receiver>
+        <service android:name=".service.SampleSchedulingService" />
 
         <activity android:name=".AboutActivity" />
         <activity
