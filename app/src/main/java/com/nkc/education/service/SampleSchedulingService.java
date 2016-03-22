@@ -66,7 +66,7 @@ public class SampleSchedulingService extends IntentService {
         }
         // Release the wake lock provided by the BroadcastReceiver.
         SampleAlarmReceiver.completeWakefulIntent(intent);
-        // END_INCLUDE(service_onhandle)
+        // END_INCLUDE(service_onhandle
     }
 
     // Post a notification indicating whether a doodle was found.
