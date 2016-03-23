@@ -6,9 +6,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.SystemClock;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -54,21 +56,37 @@ public class SampleAlarmReceiver extends WakefulBroadcastReceiver {
      * @param context
      */
     public void setAlarm(Context context) {
+        Integer i;
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, SampleAlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        // Set the alarm's trigger time to 8:30 a.m.
         Integer Year = 2016;
         Integer Month = 3;
-        Integer Day = 22;
-        Integer Hour = 15;
-        Integer Minute = 3;
-        calendar.clear();
-        calendar.set(Year, Month - 1, Day, Hour, Minute);
-        Log.d("Date Time: ", String.format("%1$tA %1$tb %1$td %1$tY at %1$tI:%1$tM %1$Tp", calendar));
+        Integer Day = 23;
+        Integer Hour = 13;
+        Integer Minute = 25;
+
+        for(i = 0; i < 5; ++i) {
+            Intent intent = new Intent(context, SampleAlarmReceiver.class);
+            alarmIntent = PendingIntent.getBroadcast(context, i, intent, 0);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            // Set the alarm's trigger time to 8:30 a.m.
+
+            calendar.clear();
+            Minute += 3;
+            calendar.set(Year, Month - 1, Day, Hour, Minute,0);
+            Log.d("Date Time: ", String.format("%1$tA %1$tb %1$td %1$tY at %1$tI:%1$tM %1$Tp", calendar));
+
+            // Single alarms in 1, 2, ..., 10 minutes (in `i` minutes)
+//            alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                    SystemClock.elapsedRealtime() + 60000 * i,
+//                    alarmIntent);
+            // clock, and to repeat once a day.
+            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+            intentArray.add(alarmIntent);
   
         /* 
          * If you don't have precise time requirements, use an inexact repeating alarm
@@ -101,10 +119,11 @@ public class SampleAlarmReceiver extends WakefulBroadcastReceiver {
          *         AlarmManager.INTERVAL_HALF_HOUR, alarmIntent);
          */
 
-        // Set the alarm to fire at approximately 8:30 a.m., according to the device's
-        // clock, and to repeat once a day.
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+            // Set the alarm to fire at approximately 8:30 a.m., according to the device's
+            // clock, and to repeat once a day.
+            //alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+            //        calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+        }
 
         // Enable {@code SampleBootReceiver} to automatically restart the alarm when the
         // device is rebooted.

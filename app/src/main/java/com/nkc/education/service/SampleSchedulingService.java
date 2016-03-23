@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -59,14 +60,14 @@ public class SampleSchedulingService extends IntentService {
         // indicates the presence of a doodle. Post a "Doodle Alert" notification.
         if (result.indexOf(SEARCH_STRING) != -1) {
             sendNotification(getString(R.string.alert_body));
-            Log.i(TAG, "Found doodle!!");
+            //Log.i(TAG, "Found doodle!!");
         } else {
             sendNotification(getString(R.string.alert_body));
-            Log.i(TAG, "No doodle found. :-(");
+            //Log.i(TAG, "No doodle found. :-(");
         }
         // Release the wake lock provided by the BroadcastReceiver.
         SampleAlarmReceiver.completeWakefulIntent(intent);
-        // END_INCLUDE(service_onhandle
+        // END_INCLUDE(service_onhandle)
     }
 
     // Post a notification indicating whether a doodle was found.
@@ -82,7 +83,7 @@ public class SampleSchedulingService extends IntentService {
                         .setSmallIcon(R.drawable.ic_kkunkc)
                         .setContentTitle(getString(R.string.alert_title))
                         .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg))
+                        .bigText(msg))
                         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);

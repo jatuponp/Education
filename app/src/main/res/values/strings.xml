@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="app_mainname">NKC Education Service</string>
     <string name="app_title">NKC Education Service</string>
+    <string name="google_app_id">79592776038</string>
 
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
@@ -23,6 +24,6 @@
     <string name="title_activity_feedback">รายงานข้อผิดพลาด</string>
     <string name="title_activity_inbox">ข้อความเข้า</string>
 
-    <string name="alert_title">แจ้งเตือน อีก 1 ชั่วโมงถึงเวลาสอบ</string>
-    <string name="alert_body">ขอให้เตรียมตัวให้พร้อมก่อนเข้าห้องสอบ </string>
+    <string name="alert_title">อีก 1 ชั่วโมงถึงเวลาเข้าห้องสอบ</string>
+    <string name="alert_body">โปรดเตรียมตัวให้พร้อม</string>
 </resources>

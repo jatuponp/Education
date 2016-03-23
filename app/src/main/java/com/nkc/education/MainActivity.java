@@ -136,28 +136,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (isInternetConnection()) {
             HashMap<String, String> user = db.getUserDetails();
-            String userid = "563410071";//user.get("uid");
+            String userid = "5834100741";//user.get("uid");
             syncExam(userid);
             syncDocument(userid);
             syncInbox(user.get("uid"));
         }
         alarm.setAlarm(this);
-
-//        db_education = new DatabaseHelper(getApplicationContext());
-//        List<Exam> row = db_education.getAllExam();
-//        Integer i = 1;
-//        for (Exam r : row){
-//            String DateMid = r.getDateMid();
-//            String TimeBegin = r.getTimeBegin();
-//            String[] Dates = DateMid.split("-");
-//            String[] Times = TimeBegin.split(":");
-//            //แจ้งเตือนก่อนสอบ 1 วัน เวลา 20:00
-//            alarm.setAlarm(this, i, Integer.parseInt(Dates[0]),Integer.parseInt(Dates[1]),Integer.parseInt(Dates[2]) - 1, Integer.parseInt(Times[0]), 0);
-//            //แจ้งเตือนก่อนสอบ 1 ชั่วโมง
-//            alarm.setAlarm(this, 100 + i, Integer.parseInt(Dates[0]),Integer.parseInt(Dates[1]),Integer.parseInt(Dates[2]),Integer.parseInt(Times[0]) - 1, 0);
-//
-//            i++;
-//        }
 
     }
 
@@ -190,15 +174,15 @@ public class MainActivity extends AppCompatActivity {
     private void syncExam(String userid) {
         pDialog.setMessage("Synchronize Database. Please wait...");
         showDialog();
-
         db_education = new DatabaseHelper(getApplicationContext());
-        db_education.deleteAllExam();
-
         JsonArrayRequest examReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETEXAM + "?userid=" + userid,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, "Response: " + response.toString());
+                        if(response.length() > 0){
+                            db_education.deleteAllExam();
+                        }
 
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -267,14 +251,15 @@ public class MainActivity extends AppCompatActivity {
         pDialog.setMessage("Synchronize Documents Database. Please wait...");
         showDialog();
         db_education = new DatabaseHelper(getApplicationContext());
-        db_education.deleteAllDoc();
 
         JsonArrayRequest docReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETDOC + "?userid=" + userid,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-
+                        Log.d(TAG, "Response: " + response.toString());
+                        if(response.length() > 0){
+                            db_education.deleteAllDoc();
+                        }
                         int j = 0;
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -324,14 +309,15 @@ public class MainActivity extends AppCompatActivity {
         pDialog.setMessage("Synchronize Inbox Database. Please wait...");
         showDialog();
         db_education = new DatabaseHelper(getApplicationContext());
-        db_education.deleteAllInbox();
 
         JsonArrayRequest inboxReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_GETINBOX + "?userid=" + userid,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
-
+                        if(response.length() > 0){
+                            db_education.deleteAllInbox();
+                        }
                         int j = 0;
                         for (int i = 0; i < response.length(); i++) {
                             try {
