@@ -281,7 +281,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void deleteAllExam() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from " + TABLE_EXAM);
+        db.execSQL("DELETE FROM " + TABLE_EXAM);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAM);
     }
 
 
@@ -344,7 +345,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void deleteAllDoc() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_DOCUMENT);
+        db.execSQL("DELETE FROM "+ TABLE_DOCUMENT);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOCUMENT);
     }
 
     // ------------------------ "Inbox" table methods ----------------//
@@ -398,6 +400,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void deleteAllInbox() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_INBOX);
+        db.execSQL("DELETE FROM "+ TABLE_INBOX);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_INBOX);
     }
 }
