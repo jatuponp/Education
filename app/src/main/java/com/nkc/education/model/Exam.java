@@ -7,7 +7,7 @@ public class Exam {
     private String Nox, Coursecode, Section, Studentid, Studentcode, Coursenameeng, DateMid, TimeBegin, TimeEnd, Runcode, chk, Classid;
     private String Codex, Enroll148, Prefixname, Studentname, Studentsurname, RoomID, Number, Programname, Studentyear, Acadyear, Semester;
     private String Financestatus, Programabbeng, ExamType, ExamYear, ExamYearX, BYTEDES, Comment;
-    private Integer Running;
+    private Integer id, Running;
 
     public Exam(){}
     public Exam(String Nox, Integer Running, String Coursecode, String Section, String Studentid, String Studentcode, String Coursenameeng, String DateMid,
@@ -45,6 +45,14 @@ public class Exam {
         this.ExamYearX = ExamYearX;
         this.BYTEDES = BYTEDES;
         this.Comment = Comment;
+    }
+
+    public void setId(Integer id){
+        this.id = id;
+    }
+
+    public Integer getId(){
+        return id;
     }
 
     public void setCoursecode(String coursecode){

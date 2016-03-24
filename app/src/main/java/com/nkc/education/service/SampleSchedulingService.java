@@ -13,12 +13,15 @@ import android.util.Log;
 
 import com.nkc.education.MainActivity;
 import com.nkc.education.R;
+import com.nkc.education.helper.DatabaseHelper;
+import com.nkc.education.model.Exam;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.util.List;
 
 /**
  * Created by Jumpon-pc on 22/3/2559.
@@ -28,6 +31,7 @@ public class SampleSchedulingService extends IntentService {
         super("SchedulingService");
     }
 
+    SampleAlarmReceiver alarm = new SampleAlarmReceiver();
     public static final String TAG = "Scheduling Demo";
     // An ID used to post the notification.
     public static final int NOTIFICATION_ID = 1;
@@ -40,12 +44,19 @@ public class SampleSchedulingService extends IntentService {
     public static final String URL = "http://www.google.com";
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
+    private DatabaseHelper db;
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        // BEGIN_INCLUDE(service_onhandle)
-        // The URL from which to fetch content.
-        String urlString = URL;
+        db = new DatabaseHelper(this);
+        List<Exam> exams = db.getAllExam();
+        for (Exam exam : exams){
+            //Cancel existing alarm
+            alarm.cancelAlarm(this, exam.getId());
+
+
+
+        }
 
         String result ="";
 
@@ -80,7 +91,7 @@ public class SampleSchedulingService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_kkunkc)
+                        .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(getString(R.string.alert_title))
                         .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(msg))

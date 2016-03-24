@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             syncDocument(userid);
             syncInbox(user.get("uid"));
         }
-        alarm.setAlarm(this);
+        //alarm.setAlarm(this);
 
     }
 
@@ -187,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject obj = response.getJSONObject(i);
+                                Log.i(TAG, obj.toString());
                                 String Nox = obj.getString("NOX");
                                 Integer Running = Integer.valueOf(obj.getString("Running"));
                                 String Coursecode = obj.getString("COURSECODE");

@@ -141,7 +141,7 @@ public class SampleAlarmReceiver extends WakefulBroadcastReceiver {
      * @param context
      */
     // BEGIN_INCLUDE(cancel_alarm)
-    public void cancelAlarm(Context context) {
+    public void cancelAlarm(Context context, int id) {
         // If the alarm has been set, cancel it.
         if (alarmMgr!= null) {
             alarmMgr.cancel(alarmIntent);

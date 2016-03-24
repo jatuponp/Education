@@ -91,12 +91,6 @@ public class ExamListAdapter extends BaseAdapter {
         txtRoom.setText("ห้องสอบ: " + e.getRoomID() + " เลขที่นั้งสอบ: " + e.getRunning());
         txtRoom.setTypeface(typeFace);
 
-        // meter_start
-        //meter_start.setText(e.getMeterStart());
-
-        // meter_end
-        //meter_end.setText(e.getMeterEnd());
-
         return convertView;
     }
 }

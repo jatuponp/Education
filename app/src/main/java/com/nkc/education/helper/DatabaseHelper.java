@@ -185,10 +185,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_STUDENTCODE, Studentcode);
         values.put(KEY_COURSENAMEENG, Coursenameeng);
 
-        String[] Date1 = DateMid.split("/");
-        String months = "0" + Date1[1];
-        String days = "0" + Date1[0];
-        values.put(KEY_DATEMID, Date1[2] + "-" + months.substring(months.length()-2, months.length()) + "-" + days.substring(days.length()-2, days.length()));
+        if(!DateMid.equals("")) {
+            String[] Date1 = DateMid.split("/");
+            String months = "0" + Date1[1];
+            String days = "0" + Date1[0];
+            values.put(KEY_DATEMID, Date1[2] + "-" + months.substring(months.length() - 2, months.length()) + "-" + days.substring(days.length() - 2, days.length()));
+        }
         values.put(KEY_TIMEBEGIN, TimeBegin);
         values.put(KEY_TIMEEND, TimeEnd);
         values.put(KEY_RUNCODE, Runcode);
@@ -232,6 +234,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 Exam e = new Exam();
+                e.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                 e.setCoursecode(c.getString(c.getColumnIndex(KEY_COURSECODE)));
                 e.setSection(c.getString(c.getColumnIndex(KEY_SECTION)));
                 e.setCoursenameeng(c.getString(c.getColumnIndex(KEY_COURSENAMEENG)));
