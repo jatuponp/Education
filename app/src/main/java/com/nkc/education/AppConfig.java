@@ -15,4 +15,13 @@ public class AppConfig {
     public static String URL_SETFEEDBACK = "https://it.nkc.kku.ac.th/frontend/edu/setfeedback";
     public static String URL_GETINBOX = "https://it.nkc.kku.ac.th/frontend/edu/getinbox";
 
+    //For Notification Configuration
+    public static final String VIBRATE_ON_ALARM = "vibrate_on_alarm";
+    public static final String REMINDER_TIME = "reminder_time";
+    public static final String ALARM_TIME = "alarm_time";
+
+    public static final String DEFAULT_REMINDER_TIME = "6";
+    public static final String DEFAULT_ALARM_TIME = "15";
+    public static final String DEFAULT_HOUR_VALUE = "12";
+
 }

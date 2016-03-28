@@ -33,12 +33,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Education";
 
     // Table Names
-    private static final String TABLE_EXAM = "exam";
-    private static final String TABLE_DOCUMENT = "document";
-    private static final String TABLE_INBOX = "inbox";
+    public static final String TABLE_EXAM = "exam";
+    public static final String TABLE_DOCUMENT = "document";
+    public static final String TABLE_INBOX = "inbox";
 
     // Common column names
-    private static final String KEY_ID = "id";
+    public static final String KEY_ID = "id";
     private static final String KEY_CREATED_AT = "created_at";
     private static final String KEY_STUDENTID = "studentid";
     private static final String KEY_STUDENTCODE = "studentcode";
@@ -48,31 +48,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_SEMESTER = "Semester";
 
     // Exam Table - column names
-    private static final String KEY_NOX = "NOX";
-    private static final String KEY_RUNNING = "running";
-    private static final String KEY_COURSECODE = "coursecode";
-    private static final String KEY_SECTION = "section";
-    private static final String KEY_COURSENAMEENG = "coursenameeng";
-    private static final String KEY_DATEMID = "DateMid";
-    private static final String KEY_TIMEBEGIN = "TimeBegin";
-    private static final String KEY_TIMEEND = "TimeEnd";
-    private static final String KEY_RUNCODE = "runcode";
-    private static final String KEY_CHK = "chk";
-    private static final String KEY_CLASSID = "Classid";
-    private static final String KEY_CODEX = "Codex";
-    private static final String KEY_Enroll148_STUDENTID = "Enroll148";
-    private static final String KEY_PREFIXNAME = "Prefixname";
-    private static final String KEY_RoomID = "RoomID";
-    private static final String KEY_Number = "Number";
-    private static final String KEY_PROGRAMNAME = "Programname";
-    private static final String KEY_STUDENTYEAR = "Studentyear";
-    private static final String KEY_FINANCESTATUS = "Financestatus";
-    private static final String KEY_PROGRAMABBENG = "Programabbeng";
-    private static final String KEY_ExamType = "ExamType";
-    private static final String KEY_ExamYear = "ExamYear";
-    private static final String KEY_ExamYearX = "ExamYearX";
-    private static final String KEY_BYTEDES = "Bytedes";
-    private static final String KEY_Comment = "Comment";
+    public static final String KEY_NOX = "NOX";
+    public static final String KEY_RUNNING = "running";
+    public static final String KEY_COURSECODE = "coursecode";
+    public static final String KEY_SECTION = "section";
+    public static final String KEY_COURSENAMEENG = "coursenameeng";
+    public static final String KEY_DATEMID = "DateMid";
+    public static final String KEY_TIMEBEGIN = "TimeBegin";
+    public static final String KEY_TIMEEND = "TimeEnd";
+    public static final String KEY_RUNCODE = "runcode";
+    public static final String KEY_CHK = "chk";
+    public static final String KEY_CLASSID = "Classid";
+    public static final String KEY_CODEX = "Codex";
+    public static final String KEY_Enroll148_STUDENTID = "Enroll148";
+    public static final String KEY_PREFIXNAME = "Prefixname";
+    public static final String KEY_RoomID = "RoomID";
+    public static final String KEY_Number = "Number";
+    public static final String KEY_PROGRAMNAME = "Programname";
+    public static final String KEY_STUDENTYEAR = "Studentyear";
+    public static final String KEY_FINANCESTATUS = "Financestatus";
+    public static final String KEY_PROGRAMABBENG = "Programabbeng";
+    public static final String KEY_ExamType = "ExamType";
+    public static final String KEY_ExamYear = "ExamYear";
+    public static final String KEY_ExamYearX = "ExamYearX";
+    public static final String KEY_BYTEDES = "Bytedes";
+    public static final String KEY_Comment = "Comment";
 
     // document Table - column names
     private static final String KEY_AUTOID = "Autoid";

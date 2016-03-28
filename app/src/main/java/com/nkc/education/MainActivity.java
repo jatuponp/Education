@@ -38,8 +38,6 @@ import com.nkc.education.gcm.RegistrationIntentService;
 import com.nkc.education.helper.DatabaseHelper;
 import com.nkc.education.helper.SQLiteHandler;
 import com.nkc.education.helper.SessionManager;
-import com.nkc.education.model.Exam;
-import com.nkc.education.service.SampleAlarmReceiver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +53,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    SampleAlarmReceiver alarm = new SampleAlarmReceiver();
     ListView listView;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = MainActivity.class.getSimpleName();

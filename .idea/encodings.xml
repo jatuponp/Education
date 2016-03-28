@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/nkc/education/service/NotificationHelper.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/nkc/education/service/OnAlarmReceiver.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/nkc/education/service/OnBootReceiver.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/nkc/education/service/TaskAlarm.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/nkc/education/service/TaskExamService.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/nkc/education/service/WakefulIntentService.java" charset="x-windows-874" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
