@@ -1,5 +1,7 @@
 package com.nkc.education.model;
 
+import java.util.Calendar;
+
 /**
  * Created by itdep on 6/3/2559.
  */
@@ -8,6 +10,7 @@ public class Exam {
     private String Codex, Enroll148, Prefixname, Studentname, Studentsurname, RoomID, Number, Programname, Studentyear, Acadyear, Semester;
     private String Financestatus, Programabbeng, ExamType, ExamYear, ExamYearX, BYTEDES, Comment;
     private Integer id, Running;
+    private long dateDue;
 
     public Exam(){}
     public Exam(String Nox, Integer Running, String Coursecode, String Section, String Studentid, String Studentcode, String Coursenameeng, String DateMid,
@@ -101,6 +104,13 @@ public class Exam {
 
     public String getTimeEnd(){
         return TimeEnd;
+    }
+
+    public long getDateDue() {
+        return dateDue;
+    }
+    public void setDateDue(long date_due) {
+        this.dateDue = date_due;
     }
 
     public void setRoomID(String roomID){

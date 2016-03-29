@@ -38,6 +38,8 @@ import com.nkc.education.gcm.RegistrationIntentService;
 import com.nkc.education.helper.DatabaseHelper;
 import com.nkc.education.helper.SQLiteHandler;
 import com.nkc.education.helper.SessionManager;
+import com.nkc.education.service.TaskExamService;
+import com.nkc.education.service.WakefulIntentService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -138,7 +140,10 @@ public class MainActivity extends AppCompatActivity {
             syncDocument(userid);
             syncInbox(user.get("uid"));
         }
-        //alarm.setAlarm(this);
+
+        //Start service to check for alarms
+        WakefulIntentService.acquireStaticLock(this);
+        this.startService(new Intent(this, TaskExamService.class));
 
     }
 
@@ -177,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, "Response: " + response.toString());
-                        if(response.length() > 0){
+                        if (response.length() > 0) {
                             db_education.deleteAllExam();
                         }
 
@@ -255,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, "Response: " + response.toString());
-                        if(response.length() > 0){
+                        if (response.length() > 0) {
                             db_education.deleteAllDoc();
                         }
                         int j = 0;
@@ -313,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
-                        if(response.length() > 0){
+                        if (response.length() > 0) {
                             db_education.deleteAllInbox();
                         }
                         int j = 0;

@@ -85,22 +85,12 @@ public class Task {
     public Task(int id,
                 String name,
                 boolean isCompleted,
-                int priority,
-                int category,
-                boolean hasDateDue,
-                boolean hasFinalDateDue,
-                boolean isRepeating,
-                int repeatType,
-                int repeatInterval,
-                long dateCreated,
-                long dateModified,
-                long dateDue,
-                String gID,
-                String notes) {
+                long dateDue
+                ) {
         this.id = id;
         this.name = name;
         this.isCompleted = isCompleted;
-        this.priority = priority;
+        /*this.priority = priority;
         this.category = category;
         this.hasDateDue = hasDateDue;
         this.hasFinalDateDue = hasFinalDateDue;
@@ -108,13 +98,13 @@ public class Task {
         this.repeatType = repeatType;
         this.repeatInterval = repeatInterval;
         this.dateCreated = dateCreated;
-        this.dateModified = dateModified;
+        this.dateModified = dateModified;*/
         this.dateDue = dateDue;
-        this.gID = gID;
-        this.notes = notes;
+        /*this.gID = gID;
+        this.notes = notes;*/
 
-        updateDateCreatedCal();
-        updateDateModifiedCal();
+        //updateDateCreatedCal();
+        //updateDateModifiedCal();
         updateDateDueCal();
     }
 

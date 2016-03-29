@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.nkc.education.model.Task;
 
 import android.database.SQLException;
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -82,7 +84,13 @@ public class TasksDataSource {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()){
             do{
-                Task task = new Task();
+                //Log.d("get Long: ", String.valueOf(cursor.getString(11)) + " " + System.currentTimeMillis());
+                Task task = new Task(
+                        cursor.getInt(0),
+                        cursor.getString(3),
+                        false,
+                        cursor.getLong(11)
+                        );
 
                 // adding task to list
                 taskList.add(task);

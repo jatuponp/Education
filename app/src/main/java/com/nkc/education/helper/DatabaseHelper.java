@@ -56,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_DATEMID = "DateMid";
     public static final String KEY_TIMEBEGIN = "TimeBegin";
     public static final String KEY_TIMEEND = "TimeEnd";
+    public static final String KEY_DUE_DATE = "dueDate";
     public static final String KEY_RUNCODE = "runcode";
     public static final String KEY_CHK = "chk";
     public static final String KEY_CLASSID = "Classid";
@@ -101,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + TABLE_EXAM + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NOX + " TEXT," + KEY_RUNNING
             + " INTEGER," + KEY_COURSECODE + " TEXT," + KEY_SECTION
             + " TEXT," + KEY_STUDENTID + " TEXT," + KEY_STUDENTCODE + " TEXT," + KEY_COURSENAMEENG
-            + " TEXT," + KEY_DATEMID + " DATE," + KEY_TIMEBEGIN + " TEXT," + KEY_TIMEEND + " TEXT," + KEY_RUNCODE
+            + " TEXT," + KEY_DATEMID + " DATE," + KEY_TIMEBEGIN + " TEXT," + KEY_TIMEEND + " TEXT," + KEY_DUE_DATE + " DATETIME," + KEY_RUNCODE
             + " TEXT," + KEY_CHK + " TEXT," + KEY_CLASSID + " TEXT," + KEY_CODEX
             + " TEXT," + KEY_Enroll148_STUDENTID + " TEXT," + KEY_PREFIXNAME + " TEXT," + KEY_STUDENTNAME
             + " TEXT," + KEY_STUDENTSURNAME + " TEXT," + KEY_RoomID + " TEXT," + KEY_Number
@@ -190,6 +191,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String months = "0" + Date1[1];
             String days = "0" + Date1[0];
             values.put(KEY_DATEMID, Date1[2] + "-" + months.substring(months.length() - 2, months.length()) + "-" + days.substring(days.length() - 2, days.length()));
+            if(TimeBegin.equals("")){
+                TimeBegin = "00:00:00";
+            }else{
+                TimeBegin = TimeBegin + ":00";
+            }
+            values.put(KEY_DUE_DATE, Date1[2] + "-" + months.substring(months.length() - 2, months.length()) + "-" + days.substring(days.length() - 2, days.length()) + " " + TimeBegin);
         }
         values.put(KEY_TIMEBEGIN, TimeBegin);
         values.put(KEY_TIMEEND, TimeEnd);
