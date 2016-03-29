@@ -61,7 +61,7 @@ public class TaskExamService extends WakefulIntentService {
 //			}
 
             //regular alarms
-            //Log.i("Task: ", String.valueOf(task.isCompleted()) + " - " + task.getDateDue());
+            //Log.i("Task: ", String.valueOf(task.isCompleted()) + " - " + task.getDateDue() + " >= " + System.currentTimeMillis());
             if (!task.isCompleted() && (task.getDateDue() >= System.currentTimeMillis())) {
                 Log.i("Task in set alarm: ", String.valueOf(task.isCompleted()) + " - " + task.getDateDue());
                 alarm.setAlarm(this, task);

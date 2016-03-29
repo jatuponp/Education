@@ -27,7 +27,6 @@ public class DocListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Document> docItems;
     private Context context;
-    //ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public DocListAdapter(Activity activity, List<Document> docItems) {
         this.activity = activity;

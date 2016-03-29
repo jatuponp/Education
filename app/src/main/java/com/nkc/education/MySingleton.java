@@ -1,5 +1,6 @@
 package com.nkc.education;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;

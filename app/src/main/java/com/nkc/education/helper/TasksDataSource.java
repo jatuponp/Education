@@ -10,7 +10,12 @@ import com.nkc.education.model.Task;
 import android.database.SQLException;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Jumpon-pc on 28/3/2559.
@@ -51,16 +56,33 @@ public class TasksDataSource {
      * Task																 *
      *********************************************************************/
     public Task getTask(int id){
+        Date date = new Date();
         open();
         Cursor cursor = db.query(DatabaseHelper.TABLE_EXAM, new String[]{
+                        DatabaseHelper.KEY_ID,
                         DatabaseHelper.KEY_COURSECODE,
-                        DatabaseHelper.KEY_COURSENAMEENG
+                        DatabaseHelper.KEY_COURSENAMEENG,
+                        DatabaseHelper.KEY_DUE_DATE
                 },
                 DatabaseHelper.KEY_ID + " = " + id,
                 null,null,null,null,null
         );
         if(cursor.moveToFirst()){
-            Task task = new Task();
+            /*DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                date = iso8601Format.parse(cursor.getString(3));
+            } catch (ParseException e) {
+                Log.e("ERROR:", "Parsing ISO8601 datetime failed", e);
+            }
+            long dueDate = date.getTime();*/
+            Log.d("getTask: ", String.valueOf(cursor.getInt(0)) + " " + cursor.getString(1) + " " + cursor.getString(3));
+
+            Task task = new Task(
+                    cursor.getInt(0),
+                    cursor.getString(1) + " " + cursor.getString(2),
+                    false,
+                    System.currentTimeMillis()
+            );
 
             close();
             cursor.close();
@@ -76,7 +98,11 @@ public class TasksDataSource {
         ArrayList<Task> taskList = new ArrayList<Task>();
 
         //Select all Exam
-        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_EXAM  + " ORDER BY date(" + DatabaseHelper.KEY_DATEMID + ") ASC";
+        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_EXAM + " WHERE "
+                + DatabaseHelper.KEY_DATEMID + " != ''"
+                + " ORDER BY date(" + DatabaseHelper.KEY_DATEMID + ") ASC";
+
+        Date date = new Date();
 
         open();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -85,11 +111,21 @@ public class TasksDataSource {
         if (cursor.moveToFirst()){
             do{
                 //Log.d("get Long: ", String.valueOf(cursor.getString(11)) + " " + System.currentTimeMillis());
+                // Get task due date
+                //long due_date_ms = 0;
+                DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+                    date = iso8601Format.parse(cursor.getString(11));
+                } catch (ParseException e) {
+                    Log.e("ERROR:", "Parsing ISO8601 datetime failed", e);
+                }
+                long dueDate = date.getTime();
+
                 Task task = new Task(
                         cursor.getInt(0),
                         cursor.getString(3),
                         false,
-                        cursor.getLong(11)
+                        dueDate
                         );
 
                 // adding task to list

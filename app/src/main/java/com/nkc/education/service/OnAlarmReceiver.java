@@ -23,6 +23,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.nkc.education.helper.TasksDataSource;
 import com.nkc.education.model.Task;
@@ -43,6 +44,7 @@ public class OnAlarmReceiver extends BroadcastReceiver {
 		NotificationHelper notification = new NotificationHelper();
 		Bundle bundle = intent.getExtras();
 		int id = bundle.getInt(Task.EXTRA_TASK_ID);
+		Log.d("ID: ", String.valueOf(id));
 		TasksDataSource db = TasksDataSource.getInstance(context);
 		Task task = db.getTask(id);
 		

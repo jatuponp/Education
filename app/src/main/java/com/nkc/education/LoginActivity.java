@@ -181,7 +181,7 @@ public class LoginActivity extends Activity {
         };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        MySingleton.getInstance(this).addToRequestQueue(strReq);
     }
 
     private void showDialog() {
