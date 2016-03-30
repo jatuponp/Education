@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by Jumpon-pc on 28/3/2559.
@@ -111,27 +113,53 @@ public class TasksDataSource {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()){
             do{
-                //Log.d("get Long: ", String.valueOf(cursor.getString(11)) + " " + System.currentTimeMillis());
-                // Get task due date
-                //long due_date_ms = 0;
-                DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Calendar t = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                long beforOneHour = 0;
+                long beforOneDay = 0;
                 try {
-                    date = iso8601Format.parse(cursor.getString(11));
-                } catch (ParseException e) {
-                    Log.e("ERROR:", "Parsing ISO8601 datetime failed", e);
+                    Date dt = sdf.parse(cursor.getString(11));
+                    t.setTime(dt);
+                    t.add(Calendar.HOUR, -1);
+                    beforOneHour = t.getTimeInMillis();
+
+                    //
+                    t.add(Calendar.DATE, -1);
+                    t.set(Calendar.HOUR_OF_DAY, 20);
+                    t.set(Calendar.MINUTE, 0);
+                    beforOneDay = t.getTimeInMillis();
+                } catch (ParseException e){
+                    Log.e("ERROR:", e.toString());
                 }
-                long dueDate = date.getTime();
+
+                //convert timeinmillis to date string
+                Date resultdate = new Date(beforOneDay);
+                Log.d("After beforOneDay:", sdf.format(resultdate));
+
+                Date resultdate1 = new Date(beforOneHour);
+                Log.d("After beforOneHour:", sdf.format(resultdate1));
 
                 Task task = new Task(
                         cursor.getInt(0),
                         cursor.getString(3),
                         false,
-                        dueDate,
+                        beforOneHour,
                         1
                         );
 
                 // adding task to list
                 taskList.add(task);
+
+                Task task1 = new Task(
+                        cursor.getInt(0),
+                        cursor.getString(3),
+                        false,
+                        beforOneDay,
+                        1
+                );
+
+                // adding task to list
+                taskList.add(task1);
             }while (cursor.moveToNext());
         }
 
