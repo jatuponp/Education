@@ -44,7 +44,6 @@ public class OnAlarmReceiver extends BroadcastReceiver {
 		NotificationHelper notification = new NotificationHelper();
 		Bundle bundle = intent.getExtras();
 		int id = bundle.getInt(Task.EXTRA_TASK_ID);
-		Log.d("ID: ", String.valueOf(id));
 		TasksDataSource db = TasksDataSource.getInstance(context);
 		Task task = db.getTask(id);
 		

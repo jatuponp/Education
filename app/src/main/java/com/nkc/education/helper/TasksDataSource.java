@@ -81,7 +81,8 @@ public class TasksDataSource {
                     cursor.getInt(0),
                     cursor.getString(1) + " " + cursor.getString(2),
                     false,
-                    System.currentTimeMillis()
+                    System.currentTimeMillis(),
+                    1
             );
 
             close();
@@ -125,7 +126,8 @@ public class TasksDataSource {
                         cursor.getInt(0),
                         cursor.getString(3),
                         false,
-                        dueDate
+                        dueDate,
+                        1
                         );
 
                 // adding task to list

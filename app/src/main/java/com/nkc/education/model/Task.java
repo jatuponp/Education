@@ -52,6 +52,7 @@ public class Task {
     private Calendar dateCreatedCal;
     private Calendar dateModifiedCal;
     private Calendar dateDueCal;
+    private String title;
 
     /**************************************************************************
      * Constructors                                                           *
@@ -85,7 +86,8 @@ public class Task {
     public Task(int id,
                 String name,
                 boolean isCompleted,
-                long dateDue
+                long dateDue,
+                int notType
                 ) {
         this.id = id;
         this.name = name;
@@ -100,6 +102,7 @@ public class Task {
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;*/
         this.dateDue = dateDue;
+        this.title = ((notType == 0)? "พรุ่งนี้สอบปลายภาค":"อีก 1 ชั่วโมงถึงเวลาเข้าห้องสอบ");
         /*this.gID = gID;
         this.notes = notes;*/
 
@@ -246,5 +249,9 @@ public class Task {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getTitle(){
+        return title;
     }
 }
