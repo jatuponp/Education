@@ -28,36 +28,37 @@ public class TasksDataSource {
     private DatabaseHelper helper;
     private static TasksDataSource instance;
 
-    private TasksDataSource(){
+    private TasksDataSource() {
 
     }
 
-    private TasksDataSource(Context context){
+    private TasksDataSource(Context context) {
         helper = new DatabaseHelper(context);
     }
 
     /**
      * Call this to get access to the instance of TasksDataSource Singleton
+     *
      * @param context
      * @return instance of TasksDataSource
      */
-    public static synchronized TasksDataSource getInstance(Context context){
+    public static synchronized TasksDataSource getInstance(Context context) {
         instance = new TasksDataSource(context);
         return instance;
     }
 
-    private void open() throws SQLException{
+    private void open() throws SQLException {
         db = helper.getWritableDatabase();
     }
 
-    private void close(){
+    private void close() {
         helper.close();
     }
 
     /*********************************************************************
      * Task																 *
      *********************************************************************/
-    public Task getTask(int id){
+    public Task getTask(int id) {
         Date date = new Date();
         open();
         Cursor cursor = db.query(DatabaseHelper.TABLE_EXAM, new String[]{
@@ -67,9 +68,9 @@ public class TasksDataSource {
                         DatabaseHelper.KEY_DUE_DATE
                 },
                 DatabaseHelper.KEY_ID + " = " + id,
-                null,null,null,null,null
+                null, null, null, null, null
         );
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             /*DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
                 date = iso8601Format.parse(cursor.getString(3));
@@ -82,22 +83,22 @@ public class TasksDataSource {
             Task task = new Task(
                     cursor.getInt(0),
                     cursor.getString(1) + " " + cursor.getString(2),
-                    false,
+                    true,
                     System.currentTimeMillis(),
-                    1
+                    true
             );
 
             close();
             cursor.close();
             return task;
-        }else {
+        } else {
             close();
             cursor.close();
             return null;
         }
     }
 
-    public ArrayList<Task> getAllTasks(){
+    public ArrayList<Task> getAllTasks() {
         ArrayList<Task> taskList = new ArrayList<Task>();
 
         //Select all Exam
@@ -111,8 +112,8 @@ public class TasksDataSource {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 Calendar t = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 long beforOneHour = 0;
@@ -120,47 +121,49 @@ public class TasksDataSource {
                 try {
                     Date dt = sdf.parse(cursor.getString(11));
                     t.setTime(dt);
-                    t.add(Calendar.HOUR, -1);
+                    t.add(Calendar.HOUR_OF_DAY, -1);
                     beforOneHour = t.getTimeInMillis();
 
                     //
+                    t.setTime(dt);
                     t.add(Calendar.DATE, -1);
-                    t.set(Calendar.HOUR_OF_DAY, 20);
+                    t.set(Calendar.HOUR_OF_DAY, 23);
                     t.set(Calendar.MINUTE, 0);
                     beforOneDay = t.getTimeInMillis();
-                } catch (ParseException e){
+                } catch (ParseException e) {
                     Log.e("ERROR:", e.toString());
                 }
 
                 //convert timeinmillis to date string
-                Date resultdate = new Date(beforOneDay);
-                Log.d("After beforOneDay:", sdf.format(resultdate));
+                //Date resultdate = new Date(beforOneDay);
+                //Log.d("After beforOneDay:", sdf.format(resultdate));
 
-                Date resultdate1 = new Date(beforOneHour);
-                Log.d("After beforOneHour:", sdf.format(resultdate1));
+                //Date resultdate1 = new Date(beforOneHour);
+                //Log.d("After beforOneHour:", sdf.format(resultdate1));
 
-                Task task = new Task(
-                        cursor.getInt(0),
-                        cursor.getString(3),
-                        false,
-                        beforOneHour,
-                        1
-                        );
+                if (beforOneHour >= System.currentTimeMillis()) {
+                    Task task = new Task(
+                            cursor.getInt(0),
+                            cursor.getString(3),
+                            false,
+                            beforOneHour,
+                            false
+                    );
+                    taskList.add(task);
+                }
 
-                // adding task to list
-                taskList.add(task);
+                if (beforOneDay >= System.currentTimeMillis()) {
+                    Task task1 = new Task(
+                            cursor.getInt(0),
+                            cursor.getString(3),
+                            false,
+                            beforOneDay,
+                            true
+                    );
+                    taskList.add(task1);
+                }
 
-                Task task1 = new Task(
-                        cursor.getInt(0),
-                        cursor.getString(3),
-                        false,
-                        beforOneDay,
-                        1
-                );
-
-                // adding task to list
-                taskList.add(task1);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
 
         cursor.close();
@@ -168,13 +171,13 @@ public class TasksDataSource {
         return taskList;
     }
 
-    public int updateTask(Task task){
+    public int updateTask(Task task) {
         open();
 
         ContentValues values = new ContentValues();
 
         int i = db.update(DatabaseHelper.TABLE_EXAM, values,
-                DatabaseHelper.KEY_ID + " = ?", new String[] { String.valueOf(task.getID())});
+                DatabaseHelper.KEY_ID + " = ?", new String[]{String.valueOf(task.getID())});
         close();
         return i;
     }

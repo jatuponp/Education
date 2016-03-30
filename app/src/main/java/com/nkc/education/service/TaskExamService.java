@@ -25,6 +25,8 @@ import android.util.Log;
 import com.nkc.education.helper.TasksDataSource;
 import com.nkc.education.model.Task;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,7 +65,10 @@ public class TaskExamService extends WakefulIntentService {
             //regular alarms
             //Log.i("Task: ", String.valueOf(task.isCompleted()) + " - " + task.getDateDue() + " >= " + System.currentTimeMillis());
             if (!task.isCompleted() && (task.getDateDue() >= System.currentTimeMillis())) {
-                Log.i("Task in set alarm: ", String.valueOf(task.isCompleted()) + " - " + task.getDateDue());
+                //Log.i("Task in set alarm: ", String.valueOf(task.isCompleted()) + " - " + task.getDateDue());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date resultdate = new Date(task.getDateDue());
+                Log.d("Notification Date Due:", task.getID() + " : " + sdf.format(resultdate));
                 alarm.setAlarm(this, task);
             }
         }

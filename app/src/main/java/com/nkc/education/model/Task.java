@@ -87,7 +87,7 @@ public class Task {
                 String name,
                 boolean isCompleted,
                 long dateDue,
-                int notType
+                boolean notType
                 ) {
         this.id = id;
         this.name = name;
@@ -102,7 +102,11 @@ public class Task {
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;*/
         this.dateDue = dateDue;
-        this.title = ((notType == 0)? "พรุ่งนี้สอบปลายภาค":"อีก 1 ชั่วโมงถึงเวลาเข้าห้องสอบ");
+        if(notType) {
+            this.title = "พรุ่งนี้สอบปลายภาค";
+        }else{
+            this.title = "อีก 1 ชั่วโมงถึงเวลาเข้าห้องสอบ";
+        }
         /*this.gID = gID;
         this.notes = notes;*/
 
@@ -253,5 +257,9 @@ public class Task {
 
     public String getTitle(){
         return title;
+    }
+
+    public void setTitle(String title){
+        this.title = title;
     }
 }
