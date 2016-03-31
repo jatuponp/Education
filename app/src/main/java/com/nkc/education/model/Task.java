@@ -1,7 +1,13 @@
 package com.nkc.education.model;
 
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by Jumpon-pc on 28/3/2559.
@@ -53,6 +59,8 @@ public class Task {
     private Calendar dateModifiedCal;
     private Calendar dateDueCal;
     private String title;
+    private String detail;
+    private String dateMid;
 
     /**************************************************************************
      * Constructors                                                           *
@@ -70,48 +78,39 @@ public class Task {
      * @param id
      * @param name
      * @param isCompleted
-     * @param priority
-     * @param category
-     * @param hasDateDue
-     * @param hasFinalDateDue
-     * @param isRepeating
-     * @param repeatType
-     * @param repeatInterval
-     * @param dateCreated
-     * @param dateModified
      * @param dateDue
-     * @param gID
-     * @param notes
      */
     public Task(int id,
                 String name,
                 boolean isCompleted,
                 long dateDue,
-                boolean notType
+                boolean notType,
+                String detail,
+                String timeend
                 ) {
         this.id = id;
         this.name = name;
         this.isCompleted = isCompleted;
-        /*this.priority = priority;
-        this.category = category;
-        this.hasDateDue = hasDateDue;
-        this.hasFinalDateDue = hasFinalDateDue;
-        this.isRepeating = isRepeating;
-        this.repeatType = repeatType;
-        this.repeatInterval = repeatInterval;
-        this.dateCreated = dateCreated;
-        this.dateModified = dateModified;*/
         this.dateDue = dateDue;
         if(notType) {
             this.title = "พรุ่งนี้สอบปลายภาค";
         }else{
             this.title = "อีก 1 ชั่วโมงถึงเวลาเข้าห้องสอบ";
         }
-        /*this.gID = gID;
-        this.notes = notes;*/
+        Calendar t = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date dt = sdf.parse(detail);
+            t.setTime(dt);
+            Date resultdate = new Date(t.getTimeInMillis());
+            Locale locale = new Locale("th","TH");
+            Locale.setDefault(locale);
+            SimpleDateFormat sdf1 = new SimpleDateFormat("d MMM yyyy เวลา: HH:mm",Locale.getDefault());
+            this.detail = sdf1.format(resultdate) + "-" + timeend;
+        }catch (ParseException e){
+            Log.e("Error:", e.toString());
+        }
 
-        //updateDateCreatedCal();
-        //updateDateModifiedCal();
         updateDateDueCal();
     }
 
@@ -261,5 +260,13 @@ public class Task {
 
     public void setTitle(String title){
         this.title = title;
+    }
+
+    public String getDetail(){
+        return detail;
+    }
+
+    public void setDetail(String detail){
+        this.detail = detail;
     }
 }

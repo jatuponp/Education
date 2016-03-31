@@ -73,8 +73,8 @@ public class NotificationHelper {
                 .setAutoCancel(true)
                 .setContentIntent(getPendingIntent(context, task.getID()))
                 .setContentInfo(Task.PRIORITY_LABELS[task.getPriority()])
-                .setContentTitle(task.getTitle())
-                .setContentText(task.getName())
+                .setContentTitle(task.getName())
+                .setContentText(task.getDetail())
                 .setDefaults(vibrate ? Notification.DEFAULT_ALL : Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
                 .setSmallIcon(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                         R.mipmap.ic_launcher : R.mipmap.ic_launcher)

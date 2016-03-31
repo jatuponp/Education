@@ -69,25 +69,32 @@ public class ExamListAdapter extends BaseAdapter {
         // getting movie data for the row
         Exam e = examItems.get(position);
 
-        String[] DateMid = e.getDateMid().split("-");
-        txtDay.setText(DateMid[2].trim());
-        txtDay.setTypeface(typeFace);
+        e.getDateMid();
 
-        TimeZone timezone = TimeZone.getDefault();
-        Calendar calendar = new GregorianCalendar(timezone);
-        calendar.set(Integer.valueOf(DateMid[0]), Integer.valueOf(DateMid[1]), 1, 1, 1, 1);
-        String monthName = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-        txtMonth.setText(monthName);
+        if(e.getDateMid() != null) {
+            String[] DateMid = e.getDateMid().split("-");
+            txtDay.setText(DateMid[2].trim());
+            TimeZone timezone = TimeZone.getDefault();
+            Calendar calendar = new GregorianCalendar(timezone);
+            calendar.set(Integer.valueOf(DateMid[0]), Integer.valueOf(DateMid[1]), 1, 1, 1, 1);
+            Locale locale = new Locale("th","TH");
+            Locale.setDefault(locale);
+            String monthName = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+            txtMonth.setText(monthName);
+            txtDateTime.setText(DateMid[2] + " " + monthName + " " + (Integer.valueOf(DateMid[0]) + 543) + " เวลา: " + e.getTimeBegin() + "-" + e.getTimeEnd());
+        }else{
+            txtDay.setText("");
+            txtDateTime.setText("WBA");
+            txtMonth.setText("WBA");
+        }
+        txtDay.setTypeface(typeFace);
         txtMonth.setTypeface(typeFace);
 
-        courseCode.setText(e.getCoursecode() + " (Sec. " + e.getSection() + ")");
+        courseCode.setText(e.getCoursecode() + " (กลุ่ม " + e.getSection() + ")");
         courseCode.setTypeface(typeFace);
         courseName.setText(e.getCoursenameeng());
         courseName.setTypeface(typeFace);
-
-        txtDateTime.setText(DateMid[2] + " " + monthName + " " + (Integer.valueOf(DateMid[0]) + 543) + " เวลา:" + e.getTimeBegin() + "-" + e.getTimeEnd());
         txtDateTime.setTypeface(typeFace);
-
         txtRoom.setText("ห้องสอบ: " + e.getRoomID() + " เลขที่นั้งสอบ: " + e.getRunning());
         txtRoom.setTypeface(typeFace);
 

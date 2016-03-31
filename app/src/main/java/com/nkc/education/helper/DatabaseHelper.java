@@ -192,11 +192,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String days = "0" + Date1[0];
             values.put(KEY_DATEMID, Date1[2] + "-" + months.substring(months.length() - 2, months.length()) + "-" + days.substring(days.length() - 2, days.length()));
             if(TimeBegin.equals("")){
-                TimeBegin = "00:00:00";
-            }else{
-                TimeBegin = TimeBegin + ":00";
+                TimeBegin = "00:00";
             }
-            values.put(KEY_DUE_DATE, Date1[2] + "-" + months.substring(months.length() - 2, months.length()) + "-" + days.substring(days.length() - 2, days.length()) + " " + TimeBegin);
+            values.put(KEY_DUE_DATE, Date1[2] + "-" + months.substring(months.length() - 2, months.length()) + "-" + days.substring(days.length() - 2, days.length()) + " " + TimeBegin + ":00");
         }
         values.put(KEY_TIMEBEGIN, TimeBegin);
         values.put(KEY_TIMEEND, TimeEnd);

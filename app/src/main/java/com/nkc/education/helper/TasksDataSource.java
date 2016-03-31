@@ -65,27 +65,22 @@ public class TasksDataSource {
                         DatabaseHelper.KEY_ID,
                         DatabaseHelper.KEY_COURSECODE,
                         DatabaseHelper.KEY_COURSENAMEENG,
-                        DatabaseHelper.KEY_DUE_DATE
+                        DatabaseHelper.KEY_DUE_DATE,
+                        DatabaseHelper.KEY_TIMEEND
                 },
                 DatabaseHelper.KEY_ID + " = " + id,
                 null, null, null, null, null
         );
         if (cursor.moveToFirst()) {
-            /*DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            try {
-                date = iso8601Format.parse(cursor.getString(3));
-            } catch (ParseException e) {
-                Log.e("ERROR:", "Parsing ISO8601 datetime failed", e);
-            }
-            long dueDate = date.getTime();*/
-            Log.d("getTask: ", String.valueOf(cursor.getInt(0)) + " " + cursor.getString(1) + " " + cursor.getString(3));
 
             Task task = new Task(
                     cursor.getInt(0),
                     cursor.getString(1) + " " + cursor.getString(2),
                     true,
                     System.currentTimeMillis(),
-                    true
+                    true,
+                    cursor.getString(3),
+                    cursor.getString(4)
             );
 
             close();
@@ -127,18 +122,21 @@ public class TasksDataSource {
                     //
                     t.setTime(dt);
                     t.add(Calendar.DATE, -1);
-                    t.set(Calendar.HOUR_OF_DAY, 23);
-                    t.set(Calendar.MINUTE, 0);
+                    t.set(Calendar.HOUR_OF_DAY, 15);
+                    t.set(Calendar.MINUTE, 26);
                     beforOneDay = t.getTimeInMillis();
                 } catch (ParseException e) {
                     Log.e("ERROR:", e.toString());
                 }
 
                 //convert timeinmillis to date string
-                //Date resultdate = new Date(beforOneDay);
-                //Log.d("After beforOneDay:", sdf.format(resultdate));
+                Locale locale = new Locale("th","TH");
+                Locale.setDefault(locale);
+                SimpleDateFormat sdf1 = new SimpleDateFormat("d MMM yyyy HH:mm",Locale.getDefault());
+                Date resultdate = new Date(beforOneDay);
+                Log.d("After beforOneDay:", sdf1.format(resultdate));
 
-                //Date resultdate1 = new Date(beforOneHour);
+                Date resultdate1 = new Date(beforOneHour);
                 //Log.d("After beforOneHour:", sdf.format(resultdate1));
 
                 if (beforOneHour >= System.currentTimeMillis()) {
@@ -147,7 +145,9 @@ public class TasksDataSource {
                             cursor.getString(3),
                             false,
                             beforOneHour,
-                            false
+                            false,
+                            cursor.getString(11),
+                            cursor.getString(10)
                     );
                     taskList.add(task);
                 }
@@ -158,7 +158,9 @@ public class TasksDataSource {
                             cursor.getString(3),
                             false,
                             beforOneDay,
-                            true
+                            true,
+                            cursor.getString(11),
+                            cursor.getString(10)
                     );
                     taskList.add(task1);
                 }
