@@ -25,6 +25,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -50,7 +53,7 @@ public class NotificationHelper {
      * Basic Text Notification for Task Butler, using NotificationCompat
      *
      * @param context
-     * @param id      id of task, call task.getID() and pass it to this parameter
+
      */
     public void sendBasicNotification(Context context, Task task) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -69,6 +72,7 @@ public class NotificationHelper {
         Calendar next_reminder = GregorianCalendar.getInstance();
         next_reminder.add(alarmUnits, alarmInterval);
 
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setAutoCancel(true)
                 .setContentIntent(getPendingIntent(context, task.getID()))
@@ -76,10 +80,11 @@ public class NotificationHelper {
                 .setContentTitle(task.getName())
                 .setContentText(task.getDetail())
                 .setDefaults(vibrate ? Notification.DEFAULT_ALL : Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
-                .setSmallIcon(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
-                        R.mipmap.ic_launcher : R.mipmap.ic_launcher)
+                .setSmallIcon(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ? R.drawable.ic_exam_name : R.drawable.ic_exam_name)
+                .setLargeIcon(bitmap)
                 .setTicker(task.getName())
                 .setPriority(Notification.PRIORITY_MAX)
+                .setColor(Color.argb(255,21,149,196))
                 .setWhen(System.currentTimeMillis());
 
         @SuppressWarnings("deprecation")
@@ -100,12 +105,13 @@ public class NotificationHelper {
                 .setContentText(task.getNotes())
                 .setContentTitle(task.getName())
                 .setSmallIcon(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
-                        R.mipmap.ic_launcher : R.mipmap.ic_launcher)
+                        R.drawable.ic_exam_name : R.drawable.ic_exam_name)
                 .setAutoCancel(true)
                 .setContentIntent(getPendingIntent(context, task.getID()))
                 .setWhen(System.currentTimeMillis())
                 .setOngoing(true)
                 .setDefaults(Notification.DEFAULT_ALL);
+
         Notification notification = builder.getNotification();
         NotificationManager notificationManager = getNotificationManager(context);
         notificationManager.notify(task.getID(), notification);

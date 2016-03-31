@@ -122,8 +122,8 @@ public class TasksDataSource {
                     //
                     t.setTime(dt);
                     t.add(Calendar.DATE, -1);
-                    t.set(Calendar.HOUR_OF_DAY, 15);
-                    t.set(Calendar.MINUTE, 26);
+                    t.set(Calendar.HOUR_OF_DAY, 21);
+                    t.set(Calendar.MINUTE, 59);
                     beforOneDay = t.getTimeInMillis();
                 } catch (ParseException e) {
                     Log.e("ERROR:", e.toString());
@@ -132,7 +132,7 @@ public class TasksDataSource {
                 //convert timeinmillis to date string
                 Locale locale = new Locale("th","TH");
                 Locale.setDefault(locale);
-                SimpleDateFormat sdf1 = new SimpleDateFormat("d MMM yyyy HH:mm",Locale.getDefault());
+                SimpleDateFormat sdf1 = new SimpleDateFormat("d MMMM yyyy HH:mm",Locale.getDefault());
                 Date resultdate = new Date(beforOneDay);
                 Log.d("After beforOneDay:", sdf1.format(resultdate));
 

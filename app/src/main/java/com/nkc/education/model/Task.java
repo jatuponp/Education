@@ -105,7 +105,7 @@ public class Task {
             Date resultdate = new Date(t.getTimeInMillis());
             Locale locale = new Locale("th","TH");
             Locale.setDefault(locale);
-            SimpleDateFormat sdf1 = new SimpleDateFormat("d MMM yyyy เวลา: HH:mm",Locale.getDefault());
+            SimpleDateFormat sdf1 = new SimpleDateFormat("d MMMM yyyy เวลา: HH:mm",Locale.getDefault());
             this.detail = sdf1.format(resultdate) + "-" + timeend;
         }catch (ParseException e){
             Log.e("Error:", e.toString());
