@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.iid.InstanceID;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.nkc.education.adapter.IconAdapter;
@@ -45,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -384,6 +386,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private void logoutUser() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        InstanceID instanceID  = InstanceID.getInstance(MainActivity.this);
+        try{
+            instanceID.deleteInstanceID();
+        }catch (IOException e){
+            e.printStackTrace();
+            e.toString();
+        }
 
         try {
             String token = sharedPreferences.getString(QuickstartPreferences.TOKEN_ID, null);
@@ -397,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
             String serverUrl = AppConfig.URL_UNREGISTER;
             doPost(serverUrl, params);
             sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
+            sharedPreferences.edit().putString(QuickstartPreferences.TOKEN_ID, null).apply();
         } catch (Exception ex) {
             Log.d("Except", "Failed to complete token refresh" + ex.getMessage());
         }

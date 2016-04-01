@@ -76,7 +76,7 @@ public class ExamListAdapter extends BaseAdapter {
             txtDay.setText(DateMid[2].trim());
             TimeZone timezone = TimeZone.getDefault();
             Calendar calendar = new GregorianCalendar(timezone);
-            calendar.set(Integer.valueOf(DateMid[0]), Integer.valueOf(DateMid[1]), 1, 1, 1, 1);
+            calendar.set(Integer.valueOf(DateMid[0]), Integer.valueOf(DateMid[1]) - 1, 1, 1, 1, 1);
             Locale locale = new Locale("th","TH");
             Locale.setDefault(locale);
             String monthName = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());

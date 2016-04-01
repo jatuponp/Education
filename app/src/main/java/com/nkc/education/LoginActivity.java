@@ -48,6 +48,20 @@ public class LoginActivity extends Activity {
         TextView TxtNotic = (TextView) findViewById(R.id.textView2);
         TxtNotic.setTypeface(typeFace);
 
+        // SQLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+        // Check if user is already logged in or not
+        if (session.isLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         if (isInternetConnection()) {
 
             inputUsername = (EditText) findViewById(R.id.username);
@@ -63,19 +77,7 @@ public class LoginActivity extends Activity {
             pDialog = new ProgressDialog(this);
             pDialog.setCancelable(false);
 
-            // SQLite database handler
-            db = new SQLiteHandler(getApplicationContext());
 
-            // Session manager
-            session = new SessionManager(getApplicationContext());
-
-            // Check if user is already logged in or not
-            if (session.isLoggedIn()) {
-                // User is already logged in. Take him to main activity
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
 
             // Login button Click Event
             btnLogin.setOnClickListener(new View.OnClickListener() {
