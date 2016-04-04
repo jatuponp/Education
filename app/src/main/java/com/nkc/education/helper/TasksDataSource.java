@@ -101,8 +101,6 @@ public class TasksDataSource {
                 + DatabaseHelper.KEY_DATEMID + " != ''"
                 + " ORDER BY date(" + DatabaseHelper.KEY_DATEMID + ") ASC";
 
-        Date date = new Date();
-
         open();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -122,22 +120,12 @@ public class TasksDataSource {
                     //
                     t.setTime(dt);
                     t.add(Calendar.DATE, -1);
-                    t.set(Calendar.HOUR_OF_DAY, 11);
-                    t.set(Calendar.MINUTE, 35);
+                    t.set(Calendar.HOUR_OF_DAY, 21);
+                    t.set(Calendar.MINUTE, 0);
                     beforOneDay = t.getTimeInMillis();
                 } catch (ParseException e) {
                     Log.e("ERROR:", e.toString());
                 }
-
-                //convert timeinmillis to date string
-                Locale locale = new Locale("th","TH");
-                Locale.setDefault(locale);
-                SimpleDateFormat sdf1 = new SimpleDateFormat("d MMMM yyyy HH:mm",Locale.getDefault());
-                Date resultdate = new Date(beforOneDay);
-                //Log.d("After beforOneDay:", sdf1.format(resultdate));
-
-                Date resultdate1 = new Date(beforOneHour);
-                Log.d("After beforOneHour:", sdf.format(resultdate1));
 
                 if (beforOneHour >= System.currentTimeMillis()) {
                     Task task = new Task(

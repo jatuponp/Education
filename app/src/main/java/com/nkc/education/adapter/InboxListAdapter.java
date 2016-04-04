@@ -13,7 +13,12 @@ import com.nkc.education.R;
 import com.nkc.education.model.Document;
 import com.nkc.education.model.Inboxs;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Jumpon-pc on 18/3/2559.
@@ -63,9 +68,19 @@ public class InboxListAdapter extends BaseAdapter {
 
         Inboxs d = inboxItems.get(position);
         txtInboxTitle.setText(d.getMSubject());
-        txtSendDate.setText(d.getMSendate());
-        txtInboxBody.setText(d.getMBody());
 
+        Calendar t = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date dt = sdf.parse(d.getMSendate());
+            Locale locale = new Locale("th","TH");
+            Locale.setDefault(locale);
+            SimpleDateFormat sdf1 = new SimpleDateFormat("d MMM yyyy HH:mm", Locale.getDefault());
+            txtSendDate.setText(sdf1.format(dt));
+        }catch (ParseException e){
+            txtSendDate.setText("");
+        }
+        txtInboxBody.setText(d.getMBody());
         txtInboxTitle.setTypeface(typeFaceBold);
         txtSendDate.setTypeface(typeFace);
         txtInboxBody.setTypeface(typeFace);

@@ -388,6 +388,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 Inboxs d = new Inboxs();
+                d.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                 d.setMForm(c.getString(c.getColumnIndex(KEY_MFORM)));
                 d.setMTo(c.getString(c.getColumnIndex(KEY_MTO)));
                 d.setMSubject(c.getString(c.getColumnIndex(KEY_MSUBJECT)));

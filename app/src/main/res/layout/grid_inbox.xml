@@ -8,19 +8,21 @@
         android:id="@+id/iconInbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="{fa-envelope #3BAFDA 45sp}"
+        android:text="{fa-envelope-square #3BAFDA 30sp}"
         android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/txtInboxTitle"
         android:text="Mail Title"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
+        android:layout_weight="0.7"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="13dp"
+        android:singleLine="true"
         android:layout_toRightOf="@+id/iconInbox"/>
 
     <TextView
@@ -31,6 +33,7 @@
         android:textSize="12dp"
         android:layout_toRightOf="@+id/iconInbox"
         android:layout_marginTop="0dp"
+        android:singleLine="true"
         android:layout_below="@+id/txtInboxTitle"/>
 
     <TextView
@@ -39,8 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12dp"
-        android:layout_toRightOf="@+id/iconInbox"
-        android:layout_marginTop="0dp"
-        android:layout_below="@+id/txtInboxBody"/>
+        android:layout_toRightOf="@+id/txtInboxTitle"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:layout_marginTop="0dp"/>
 
 </RelativeLayout>

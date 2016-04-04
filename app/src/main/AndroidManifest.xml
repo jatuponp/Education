@@ -83,16 +83,16 @@
             android:name=".gcm.RegistrationIntentService"
             android:exported="false" />
 
-        <receiver android:name=".service.OnAlarmReceiver"></receiver>
-
-        <receiver android:name=".service.OnBootReceiver"
+        <receiver android:name=".service.OnAlarmReceiver" />
+        <receiver
+            android:name=".service.OnBootReceiver"
             android:enabled="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".service.TaskExamService"></service>
+        <service android:name=".service.TaskExamService" />
 
         <activity android:name=".AboutActivity" />
         <activity
@@ -114,6 +114,10 @@
         <activity
             android:name=".InboxActivity"
             android:label="@string/title_activity_inbox"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".InboxDetailActivity"
+            android:label="@string/title_activity_inbox_detail"
             android:theme="@style/AppTheme"></activity>
     </application>
 

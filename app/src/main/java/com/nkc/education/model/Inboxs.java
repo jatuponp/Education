@@ -4,20 +4,28 @@ package com.nkc.education.model;
  * Created by Jumpon-pc on 18/3/2559.
  */
 public class Inboxs {
-    private String MForm, MTo, MSubject, MBody, MRead, MReadDate, MSendate;
+    private Integer ids;
+    private String MForm, MTo, MSubject, MBody, MRead, MReadDate, MSendDate;
 
     public Inboxs(){}
-    public Inboxs(String MForm, String MTo, String MSubject, String MBody, String MRead, String MReadDate, String MSendate){
+    public Inboxs(Integer ids,String MForm, String MTo, String MSubject, String MBody, String MRead, String MReadDate, String MSendDate){
+        this.ids = ids;
         this.MForm = MForm;
         this.MTo = MTo;
         this.MSubject = MSubject;
         this.MBody = MBody;
         this.MRead = MRead;
         this.MReadDate = MReadDate;
-        this.MSendate = MSendate;
+        this.MSendDate = MSendDate;
     }
 
+    public void setId(Integer ids){
+        this.ids = ids;
+    }
 
+    public Integer getId(){
+        return ids;
+    }
 
     public void setMForm(String MForm){
         this.MForm = MForm;
@@ -61,11 +69,11 @@ public class Inboxs {
         return MReadDate;
     }
 
-    public void setMSendDate(String MSenddate){
-        this.MSendate = MSendate;
+    public void setMSendDate(String MSendDate){
+        this.MSendDate = MSendDate;
     }
     public String getMSendate(){
-        return MSendate;
+        return MSendDate;
     }
 
 }
