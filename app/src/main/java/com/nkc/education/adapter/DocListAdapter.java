@@ -13,7 +13,11 @@ import com.nkc.education.R;
 import com.nkc.education.model.Document;
 import com.nkc.education.model.Exam;
 
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -70,7 +74,15 @@ public class DocListAdapter extends BaseAdapter {
         }else{
             txtFeeid.setText(d.getFeeidname().trim());
         }
-        txtRequest.setText("วันที่ยื่นเรื่อง: " + d.getRequestdate());
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date dt = sdf.parse(d.getRequestdate());
+            SimpleDateFormat sdf1 = new SimpleDateFormat("EEEE ที่ dd เดือน MMMM yyyy", new Locale("th", "TH"));
+            txtRequest.setText(sdf1.format(dt));
+        }catch (ParseException e){
+            txtRequest.setText("");
+        }
 
         if(d.getStatus().equals("YES")){
             status = "ติดต่อรับเอกสาร";

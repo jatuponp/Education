@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,7 @@ public class InboxDetailActivity extends AppCompatActivity {
 
         TextView txtMsg = (TextView) findViewById(R.id.txtMsgFrom);
         txtMsg.setText(String.valueOf(b.get("body")));
+        txtMsg.setMovementMethod(new ScrollingMovementMethod());
         txtMsg.setTypeface(typeFace);
 
 

@@ -39,6 +39,9 @@ import com.nkc.education.gcm.RegistrationIntentService;
 import com.nkc.education.helper.DatabaseHelper;
 import com.nkc.education.helper.SQLiteHandler;
 import com.nkc.education.helper.SessionManager;
+import com.nkc.education.helper.TasksDataSource;
+import com.nkc.education.model.Task;
+import com.nkc.education.service.TaskAlarm;
 import com.nkc.education.service.TaskExamService;
 import com.nkc.education.service.WakefulIntentService;
 
@@ -137,10 +140,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (isInternetConnection()) {
             HashMap<String, String> user = db.getUserDetails();
-            String userid = "5834100741";//user.get("uid");
+            String userid = user.get("uid");
             syncExam(userid);
             syncDocument(userid);
-            syncInbox(user.get("uid"));
+            syncInbox(userid);
         }
 
         //Start service to check for alarms
@@ -183,10 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG, "Response: " + response.toString());
-                        if (response.length() > 0) {
-                            db_education.deleteAllExam();
-                        }
+                        db_education.deleteAllExam();
 
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -261,10 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG, "Response: " + response.toString());
-                        if (response.length() > 0) {
-                            db_education.deleteAllDoc();
-                        }
+                        db_education.deleteAllDoc();
                         int j = 0;
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -319,10 +316,8 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-                        if (response.length() > 0) {
-                            db_education.deleteAllInbox();
-                        }
+
+                        db_education.deleteAllInbox();
                         int j = 0;
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -386,10 +381,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void logoutUser() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        InstanceID instanceID  = InstanceID.getInstance(MainActivity.this);
-        try{
+        InstanceID instanceID = InstanceID.getInstance(MainActivity.this);
+        try {
             instanceID.deleteInstanceID();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             e.toString();
         }
@@ -413,6 +408,14 @@ public class MainActivity extends AppCompatActivity {
 
         session.setLogin(false);
         db.deleteUsers();
+
+        TasksDataSource db = TasksDataSource.getInstance(this); //get access to the instance of TasksDataSource
+        TaskAlarm alarm = new TaskAlarm();
+        List<Task> tasks = db.getAllTasks(); //Get a list of all the tasks there
+        for (Task task : tasks) {
+            //Cancel existing alarm
+            alarm.cancelAlarm(this, task.getID());
+        }
 
         // Launching the login activity
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
