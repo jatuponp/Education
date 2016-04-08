@@ -14,6 +14,7 @@ public class AppConfig {
 
     public static String URL_SETFEEDBACK = "https://it.nkc.kku.ac.th/frontend/edu/setfeedback";
     public static String URL_GETINBOX = "https://it.nkc.kku.ac.th/frontend/edu/getinbox";
+    public static String URL_SETINBOX_READ = "https://it.nkc.kku.ac.th/frontend/edu/setinboxread";
 
     //For Notification Configuration
     public static final String VIBRATE_ON_ALARM = "vibrate_on_alarm";

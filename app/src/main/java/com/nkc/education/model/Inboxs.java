@@ -4,12 +4,13 @@ package com.nkc.education.model;
  * Created by Jumpon-pc on 18/3/2559.
  */
 public class Inboxs {
-    private Integer ids;
-    private String MForm, MTo, MSubject, MBody, MRead, MReadDate, MSendDate;
+    private Integer ids, MIds, MRead;
+    private String MForm, MTo, MSubject, MBody, MReadDate, MSendDate;
 
     public Inboxs(){}
-    public Inboxs(Integer ids,String MForm, String MTo, String MSubject, String MBody, String MRead, String MReadDate, String MSendDate){
+    public Inboxs(Integer ids, Integer MIds, String MForm, String MTo, String MSubject, String MBody, Integer MRead, String MReadDate, String MSendDate){
         this.ids = ids;
+        this.MIds = MIds;
         this.MForm = MForm;
         this.MTo = MTo;
         this.MSubject = MSubject;
@@ -25,6 +26,14 @@ public class Inboxs {
 
     public Integer getId(){
         return ids;
+    }
+
+    public void setMIds(Integer mIds){
+        this.MIds = mIds;
+    }
+
+    public Integer getMIds(){
+        return MIds;
     }
 
     public void setMForm(String MForm){
@@ -55,15 +64,15 @@ public class Inboxs {
         return MBody;
     }
 
-    public void setMRead(String MRead){
+    public void setMRead(Integer MRead){
         this.MRead = MRead;
     }
-    public String getMRead(){
+    public Integer getMRead(){
         return MRead;
     }
 
     public void setMReadDate(String MReadDate){
-        this.MRead = MReadDate;
+        this.MReadDate = MReadDate;
     }
     public String getMReadDate(){
         return MReadDate;

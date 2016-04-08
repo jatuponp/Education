@@ -33,8 +33,9 @@ import android.content.Intent;
 public class OnBootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		WakefulIntentService.acquireStaticLock(context); //acquire a partial WakeLock
-		context.startService(new Intent(context, TaskExamService.class)); //start TaskButlerService
-		
+		if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+			WakefulIntentService.acquireStaticLock(context); //acquire a partial WakeLock
+			context.startService(new Intent(context, TaskExamService.class)); //start TaskButlerService
+		}
 	}
 }

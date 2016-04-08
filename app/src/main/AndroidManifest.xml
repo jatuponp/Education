@@ -3,6 +3,7 @@
     package="com.nkc.education">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- GCM requires a Google account. -->
@@ -86,7 +87,9 @@
         <receiver android:name=".service.OnAlarmReceiver" />
         <receiver
             android:name=".service.OnBootReceiver"
-            android:enabled="false">
+            android:enabled="true"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -118,7 +121,7 @@
         <activity
             android:name=".InboxDetailActivity"
             android:label="@string/title_activity_inbox_detail"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

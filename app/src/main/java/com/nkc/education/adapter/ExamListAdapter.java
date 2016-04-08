@@ -112,6 +112,9 @@ public class ExamListAdapter extends BaseAdapter {
             txtMonth.setBackgroundColor(Color.argb(255, 217, 83, 79));
         }
 
+        xDay = 0;
+        currentDay = 0;
+
         return convertView;
     }
 }

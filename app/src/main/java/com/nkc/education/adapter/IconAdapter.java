@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nkc.education.R;
+import com.nkc.education.helper.DatabaseHelper;
 
 import org.w3c.dom.Text;
 
@@ -18,6 +19,7 @@ import org.w3c.dom.Text;
 public class IconAdapter extends BaseAdapter {
     private Context context;
     private final String[] iconValues;
+    private DatabaseHelper db;
 
     public IconAdapter(Context context, String[] iconValues){
         this.context = context;
@@ -31,6 +33,7 @@ public class IconAdapter extends BaseAdapter {
 
         Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/thaisansneue-regular-webfont.ttf");
         View gridView;
+        db = new DatabaseHelper(context.getApplicationContext());
 
         if (convertView == null) {
 
@@ -42,9 +45,11 @@ public class IconAdapter extends BaseAdapter {
             TextView txtTitleEN = (TextView) gridView.findViewById(R.id.titleEN);
             TextView textView = (TextView) gridView.findViewById(R.id.grid_item_label);
             TextView txtTitleTH = (TextView) gridView.findViewById(R.id.titleTH);
+            TextView txtInboxCount = (TextView) gridView.findViewById(R.id.txtInboxCount);
             txtTitleEN.setText(iconValues[position]);
             txtTitleEN.setTypeface(typeFace);
             txtTitleTH.setTypeface(typeFace);
+            txtInboxCount.setTypeface(typeFace);
 
             //"{fa-calendar #3BAFDA 50sp}", "{fa-bullhorn #3BAFDA 50sp}", "{fa-envelope #3BAFDA 50sp}", "{fa-comments #3BAFDA 50sp}", "{fa-phone #3BAFDA 50sp}", "{fa-globe #3BAFDA 50sp}", "{fa-info #3BAFDA 50sp}", "{fa-power-off #3BAFDA 50sp}"};
             String icon = iconValues[position];
@@ -58,6 +63,11 @@ public class IconAdapter extends BaseAdapter {
             } else if (icon.equals("Inbox")) {
                 textView.setText("{fa-envelope #3BAFDA 50sp}");
                 txtTitleTH.setText("กล่องข้อความเข้า");
+                int inCount = db.getInboxCount();
+                if(inCount > 0) {
+                    txtInboxCount.setText(String.valueOf(inCount));
+                    txtInboxCount.setBackgroundResource(R.drawable.badge_circle);
+                }
             } else if (icon.equals("Feedback")) {
                 textView.setText("{fa-bug #3BAFDA 50sp}");
                 txtTitleTH.setText("รายงานข้อผิดพลาด");

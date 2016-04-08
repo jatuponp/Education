@@ -110,6 +110,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject obj = response.getJSONObject(i);
+                                Integer MIds = obj.getInt("MIds");
                                 String MForm = obj.getString("MForm");
                                 String MTo = obj.getString("MTo");
                                 String MSubject = obj.getString("MSubject");
@@ -118,7 +119,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                                 String MReadDate = obj.getString("MReadDate");
                                 String MSendate = obj.getString("MSendate");
 
-                                db.createInbox(MForm, MTo, MSubject, MBody, MRead, MReadDate, MSendate);
+                                db.createInbox(MIds, MForm, MTo, MSubject, MBody, MRead, MReadDate, MSendate);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -148,10 +149,11 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
         for (Inboxs r : row) {
             Inboxs inboxs = new Inboxs();
             inboxs.setId(r.getId());
+            inboxs.setMIds(r.getMIds());
             inboxs.setMSubject(r.getMSubject());
             inboxs.setMSendDate(r.getMSendate());
             inboxs.setMBody(r.getMBody());
-
+            inboxs.setMRead(r.getMRead());
             inboxList.add(inboxs);
         }
 
@@ -162,9 +164,12 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                 final Inboxs inboxs = inboxList.get(position);
                 Intent intent = new Intent(InboxActivity.this, InboxDetailActivity.class);
                 intent.putExtra("id", inboxs.getId());
+                intent.putExtra("mids", inboxs.getMIds());
                 intent.putExtra("subject", inboxs.getMSubject());
                 intent.putExtra("body", inboxs.getMBody());
                 intent.putExtra("sendDate", inboxs.getMSendate());
+                db.setRead(inboxs.getMIds());
+                setRead(inboxs.getMIds());
 
                 startActivity(intent);
             }
@@ -173,6 +178,30 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
         // stopping swipe refresh
         swipeRefreshLayout.setRefreshing(false);
 
+    }
+
+    public void setRead(Integer ids){
+        JsonArrayRequest inboxReq = new JsonArrayRequest(Request.Method.POST, AppConfig.URL_SETINBOX_READ + "?id=" + ids                ,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        // stopping swipe refresh
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                }
+        );
+
+        MySingleton.getInstance(this).addToRequestQueue(inboxReq);
     }
 
     /**

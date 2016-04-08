@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     // Database Name
     private static final String DATABASE_NAME = "Education";
@@ -88,6 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_STATUS = "Status";
 
     // Inbox Table - column names
+    private static final String KEY_MIDS = "MIds";
     private static final String KEY_MFORM = "MForm";
     private static final String KEY_MTO = "MTo";
     private static final String KEY_MSUBJECT = "MSubject";
@@ -124,7 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Inbox table create statement
     private static final String CREATE_TABLE_INBOX = "CREATE TABLE "
-            + TABLE_INBOX + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_MFORM
+            + TABLE_INBOX + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_MIDS + " INTEGER," + KEY_MFORM
             + " TEXT," + KEY_MTO + " TEXT," + KEY_MSUBJECT
             + " TEXT," + KEY_MBODY + " TEXT," + KEY_MREAD + " TEXT," + KEY_MREADDATE
             + " DATETIME," + KEY_MSENDDATE + " DATETIME)";
@@ -135,7 +136,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         // creating required tables
         db.execSQL(CREATE_TABLE_EXAM);
         db.execSQL(CREATE_TABLE_DOCUMENT);
@@ -358,10 +358,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // ------------------------ "Inbox" table methods ----------------//
-    public void createInbox(String MForm, String MTo, String MSubject, String MBody, String MRead, String MReadDate, String MSendate) {
+    public void createInbox(Integer MIds, String MForm, String MTo, String MSubject, String MBody, String MRead, String MReadDate, String MSendate) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_MIDS, MIds);
         values.put(KEY_MFORM, MForm);
         values.put(KEY_MTO, MTo);
         values.put(KEY_MSUBJECT, MSubject);
@@ -389,19 +390,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Inboxs d = new Inboxs();
                 d.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                d.setMIds(c.getInt(c.getColumnIndex(KEY_MIDS)));
                 d.setMForm(c.getString(c.getColumnIndex(KEY_MFORM)));
                 d.setMTo(c.getString(c.getColumnIndex(KEY_MTO)));
                 d.setMSubject(c.getString(c.getColumnIndex(KEY_MSUBJECT)));
                 d.setMBody(c.getString(c.getColumnIndex(KEY_MBODY)));
-                d.setMRead(c.getString(c.getColumnIndex(KEY_MREAD)));
+                d.setMRead(c.getInt(c.getColumnIndex(KEY_MREAD)));
                 d.setMReadDate(c.getString(c.getColumnIndex(KEY_MREADDATE)));
                 d.setMSendDate(c.getString(c.getColumnIndex(KEY_MSENDDATE)));
+                Log.d("SELECT MREAD: ", c.getString(c.getColumnIndex(KEY_MREAD)));
 
                 inboxs.add(d);
             } while (c.moveToNext());
         }
         this.closeDB();
         return inboxs;
+    }
+
+    public int getInboxCount() {
+
+        String query = "SELECT * FROM " + TABLE_INBOX + " WHERE " + KEY_MREAD + " = 0";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+
+        return count;
+    }
+
+    public void setRead(int ids){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_MREAD, "1");
+        values.put(KEY_MREADDATE, getDateTime());
+
+        // Inserting Row
+        long id = db.update(TABLE_INBOX, values, KEY_MIDS + " =? ", new String[]{ String.valueOf(ids)});
+
+        Log.d(LOG, "update table: " + id);
+
     }
 
     /**

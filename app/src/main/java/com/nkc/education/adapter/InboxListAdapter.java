@@ -85,6 +85,10 @@ public class InboxListAdapter extends BaseAdapter {
         txtSendDate.setTypeface(typeFace);
         txtInboxBody.setTypeface(typeFace);
 
+        if(d.getMRead() == 0){
+            convertView.setBackgroundResource(R.color.inboxUnread);
+        }
+
         return convertView;
     }
 }

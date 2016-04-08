@@ -18,10 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -322,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject obj = response.getJSONObject(i);
+                                Integer MIds = obj.getInt("MIds");
                                 String MForm = obj.getString("MForm");
                                 String MTo = obj.getString("MTo");
                                 String MSubject = obj.getString("MSubject");
@@ -330,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                                 String MReadDate = obj.getString("MReadDate");
                                 String MSendate = obj.getString("MSendate");
 
-                                db_education.createInbox(MForm, MTo, MSubject, MBody, MRead, MReadDate, MSendate);
+                                db_education.createInbox(MIds, MForm, MTo, MSubject, MBody, MRead, MReadDate, MSendate);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
