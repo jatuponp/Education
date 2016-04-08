@@ -2,6 +2,7 @@ package com.nkc.education.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,10 +71,12 @@ public class ExamListAdapter extends BaseAdapter {
         Exam e = examItems.get(position);
 
         e.getDateMid();
+        int xDay = 0;
 
         if(e.getDateMid() != null) {
             String[] DateMid = e.getDateMid().split("-");
             txtDay.setText(DateMid[2].trim());
+            xDay = Integer.valueOf(DateMid[2].trim());
             TimeZone timezone = TimeZone.getDefault();
             Calendar calendar = new GregorianCalendar(timezone);
             calendar.set(Integer.valueOf(DateMid[0]), Integer.valueOf(DateMid[1]) - 1, 1, 1, 1, 1);
@@ -97,6 +100,17 @@ public class ExamListAdapter extends BaseAdapter {
         txtDateTime.setTypeface(typeFace);
         txtRoom.setText("ห้องสอบ: " + e.getRoomID() + " เลขที่นั้งสอบ: " + e.getRunning());
         txtRoom.setTypeface(typeFace);
+
+        Calendar calendar = Calendar.getInstance();
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        if(xDay == currentDay) {
+            //Warning
+            //convertView.setBackgroundColor(Color.argb(255, 240, 173, 78));
+            //Danger
+            //convertView.setBackgroundColor(Color.argb(255, 217, 83, 79));
+            txtDay.setBackgroundColor(Color.argb(255, 217, 83, 79));
+            txtMonth.setBackgroundColor(Color.argb(255, 217, 83, 79));
+        }
 
         return convertView;
     }
