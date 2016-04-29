@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                android:text="ข้อมูล: นายละมุน กั้งจำปี นักวิชาการการศึกษา \n ผู้พัฒนา: นายจตุพล โพธิ์คำพก"
+                android:text="ข้อมูล: นายละมุน กั้งจำปา นักวิชาการการศึกษา \n ผู้พัฒนา: นายจตุพล โพธิ์คำพก"
                 android:textAlignment="center" />
 
             <TextView

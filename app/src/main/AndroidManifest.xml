@@ -34,6 +34,7 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,10 +42,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_mainname" />
+            android:label="@string/app_mainname"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -88,8 +92,7 @@
         <receiver
             android:name=".service.OnBootReceiver"
             android:enabled="true"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -97,30 +100,38 @@
 
         <service android:name=".service.TaskExamService" />
 
-        <activity android:name=".AboutActivity" />
+        <activity
+            android:name=".AboutActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ExamActivity"
             android:label="@string/title_activity_exam"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".DocumentActivity"
             android:label="@string/title_activity_document"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".NewsActivity"
             android:label="@string/title_activity_news"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".FeedbackActivity"
             android:label="@string/title_activity_feedback"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".InboxActivity"
             android:label="@string/title_activity_inbox"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".InboxDetailActivity"
             android:label="@string/title_activity_inbox_detail"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>
 
