@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             syncInbox(userid);
         }
 
-        //Start service
+        //Start service to check for alarms
         WakefulIntentService.acquireStaticLock(this);
         this.startService(new Intent(this, TaskExamService.class));
 
